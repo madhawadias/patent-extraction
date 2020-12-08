@@ -5,23 +5,34 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
 import csv
+from selenium.webdriver.chrome.options import Options
 
-PATH = "utils/chromedriver"
-driver = webdriver.Chrome(PATH)
+#disabling notifications
+options = Options()
+options.add_argument("--disable-notifications")
+
+#setting up the chrome driver 
+PATH = "C:\Program Files (x86)\chromedriver.exe"
+driver = webdriver.Chrome(PATH, options=options)
 driver.get("https://www.freepatentsonline.com/search.html")
 print(driver.title)
 
+#search the author
 search = driver.find_element_by_id("query_txt")
 search.send_keys('PEX/"ROTARU, OCTAVIAN"')
 submit_btn = driver.find_element_by_name("search")
 submit_btn.click()
 
-with open('temp_data/patent-result.csv', 'w', newline='') as file:
+# open csv
+with open('patent-results.csv', 'w', newline='') as file:
     writer = csv.writer(file)
     writer.writerow(["patent-title", "patent-number", "patent-issue-date"])
 
 # for i in range(2, 6):
 
+
+
+    # get values
     try:
 
             element = WebDriverWait(driver, 10).until(
@@ -31,7 +42,7 @@ with open('temp_data/patent-result.csv', 'w', newline='') as file:
             element.click()
 
             # accessing the details
-
+            
             patent_title = WebDriverWait(driver, 10).until(
                 EC.presence_of_element_located((By.CLASS_NAME, "disp_elm_text"))
             )
@@ -50,10 +61,17 @@ with open('temp_data/patent-result.csv', 'w', newline='') as file:
             patent_result = [patent_title,patent_number,patent_issue_date]
             print(patent_result)
 
+            # write it to the csv
             writer.writerow(patent_result)
 
 
 
     finally:
             driver.quit()
+
+
+
+
+
+
 
