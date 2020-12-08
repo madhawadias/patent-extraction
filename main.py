@@ -9,6 +9,7 @@ from selenium.webdriver.chrome.options import Options
 
 
 list_of_titles = []
+list_of_links = []
 
 #disabling notifications
 options = Options()
@@ -47,17 +48,14 @@ with open('patent-titles.csv', 'w', newline='') as file:
             for value in titles:
                 print(value.text)
                 list_of_titles.append(value.text+"\n")
+                list_of_links.append(value.get_attribute('href'))
             print(list_of_titles)
+            print(list_of_links)
             writer1.writerow(list_of_titles)
 
-
+#7:31
             link_submit = driver.find_elements_by_xpath('//*[@id="results"]/div[2]/div/div/table/tbody/tr[3]/td[3]/a')[0]
             link_submit.click()
-
-                # EC.presence_of_element_located((By.XPATH, '//*[@id="results"]/div[2]/div/div/table/tbody/tr['+str(i)+']/td[3]/a')),
-                # EC.presence_of_element_located((By.XPATH, '//*[@id="results"]/div[2]/div/div/table/tbody/tr[3]/td[3]/a'))
-                #
-                # element.click()
 
 
             # accessing the details
@@ -90,6 +88,10 @@ with open('patent-titles.csv', 'w', newline='') as file:
 
     finally:
             driver.quit()
+
+
+
+
 
 
 
