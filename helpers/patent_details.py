@@ -97,7 +97,12 @@ class PatentExtract:
             )
             patent_issue_date = patent_issue_date.text
 
-            patent_result = [patent_title, patent_number, patent_issue_date]
+            patent_application_number = WebDriverWait(driver, 10).until(
+                EC.presence_of_element_located((By.XPATH, "/html/body/div/div/div[3]/div[11]/div[2]"))
+            )
+            patent_application_number = patent_application_number.text
+
+            patent_result = [patent_title, patent_number, patent_issue_date, patent_application_number]
             print(patent_result)
             patent_results.append(patent_result)
 

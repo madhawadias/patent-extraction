@@ -128,7 +128,7 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-utils/chromedriver
+utils
 
 temp_data
 
