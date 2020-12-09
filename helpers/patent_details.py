@@ -19,7 +19,7 @@ class PatentExtract:
         self.csv_location = "{}/temp_data/patent-details.csv".format(get_base_path())
         self.options = Options()
         self.options.add_argument("--disable-notifications")
-        # self.options.add_argument("--headless")
+        self.options.add_argument("--headless")
 
     # open csv for all titles
     def write_to_csv(self):
@@ -57,39 +57,6 @@ class PatentExtract:
                 self.list_of_links.append(value.get_attribute('href'))
             print(self.list_of_titles)
             print(self.list_of_links)
-            # writer.writerow(self.list_of_titles)
-
-            link_submit = driver.find_elements_by_xpath('//*[@id="results"]/div[2]/div/div/table/tbody/tr[3]/td[3]/a')[
-                0]
-            link_submit.click()
-
-            # accessing the details
-
-            patent_title = WebDriverWait(driver, 10).until(
-                EC.presence_of_element_located((By.CLASS_NAME, "disp_elm_text"))
-            )
-            patent_title = patent_title.text
-
-            patent_number = WebDriverWait(driver, 10).until(
-                EC.presence_of_element_located((By.XPATH, "/html/body/div/div/div[3]/div[3]/div"))
-            )
-            patent_number = patent_number.text
-
-            patent_issue_date = WebDriverWait(driver, 10).until(
-                EC.presence_of_element_located((By.XPATH, "/html/body/div/div/div[3]/div[12]/div[2]"))
-            )
-            patent_issue_date = patent_issue_date.text
-
-            patent_result = [patent_title, patent_number, patent_issue_date]
-            print(patent_result)
-
-            # write it to the csv
-            # with open('patent-results.csv', 'w', newline='') as file:
-            #     writer = csv.writer(file)
-            #     writer.writerow(["patent-title", "patent-number", "patent-issue-date"])
-            #     writer.writerow(patent_result)
-
-
 
         finally:
             driver.quit()
@@ -101,11 +68,11 @@ class PatentExtract:
         patent_results = []
 
         #disabling notifications
-        options = Options()
-        options.add_argument("--disable-notifications")
+        # options = Options()
+        # options.add_argument("--disable-notifications")
 
         #setting up the chrome driver
-        driver = webdriver.Chrome(self.chrome_driver_path, chrome_options=options)
+        driver = webdriver.Chrome(self.chrome_driver_path, chrome_options=self.options)
 
         with open(self.csv_location, 'w', newline='') as file:
             writer = csv.writer(file)
@@ -141,7 +108,10 @@ class PatentExtract:
         with open(self.csv_location, 'w', newline='') as file:
             writer = csv.writer(file)
             writer.writerow(["patent-title", "patent-number", "patent-issue-date"])
-            writer.writerow(patent_results)
+            for patent_result in patent_results:
+                writer.writerow(patent_result)
+
+        driver.quit()
 
 
 
