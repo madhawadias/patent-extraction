@@ -46,6 +46,7 @@ class PatentExtract:
 
         try:
             # getting all titles
+            print("Getting titles")
             titles = WebDriverWait(driver, 10).until(
                 EC.presence_of_all_elements_located(
                     (By.XPATH, '//*[@id="results"]/div[2]/div/div/table/tbody/tr/td[3]/a'))
@@ -104,10 +105,9 @@ class PatentExtract:
         options.add_argument("--disable-notifications")
 
         #setting up the chrome driver
-        PATH = "../utils/chromedriver"
-        driver = webdriver.Chrome(PATH, chrome_options=options)
+        driver = webdriver.Chrome(self.chrome_driver_path, chrome_options=options)
 
-        with open('../temp_data/patent-results.csv', 'w', newline='') as file:
+        with open(self.csv_location, 'w', newline='') as file:
             writer = csv.writer(file)
             writer.writerow(["patent-title", "patent-number", "patent-issue-date"])
 
@@ -138,7 +138,7 @@ class PatentExtract:
 
 
         # write it to the csv
-        with open('../temp_data/patent-results.csv', 'w', newline='') as file:
+        with open(self.csv_location, 'w', newline='') as file:
             writer = csv.writer(file)
             writer.writerow(["patent-title", "patent-number", "patent-issue-date"])
             writer.writerow(patent_results)
