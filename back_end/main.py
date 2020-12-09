@@ -1,4 +1,4 @@
-from helpers.patent_details import PatentExtract
+from back_end.helpers.patent_details import PatentExtract
 
 patent_extract_class = PatentExtract()
 patent_extract_class.search_by_examiner()
