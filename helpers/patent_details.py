@@ -112,7 +112,7 @@ class PatentExtract:
         # write it to the csv
         with open(self.csv_location, 'w', newline='') as file:
             writer = csv.writer(file)
-            writer.writerow(["patent-title", "patent-number", "patent-issue-date"])
+            writer.writerow(["patent-title", "patent-number", "patent-issue-date","patent-application-number"])
             for patent_result in patent_results:
                 writer.writerow(patent_result)
 
