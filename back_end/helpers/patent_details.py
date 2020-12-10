@@ -26,7 +26,11 @@ class PatentExtract:
 
     # for i in range(2, 6):
 
-    def search_by_examiner(self):
+    def search_by_examiner(self,text):
+        print(text)
+         # text1 = self.text
+         # print(text1)
+
 
         # with open(self.csv_location, 'w', newline='') as file:
         #     writer = csv.writer(file)
@@ -37,7 +41,8 @@ class PatentExtract:
         print(driver.title)
         # search the author
         search = driver.find_element_by_id("query_txt")
-        search.send_keys('PEX/"ROTARU, OCTAVIAN"')
+        # search.send_keys('PEX/"ROTARU, OCTAVIAN"')
+        search.send_keys(text)
         submit_btn = driver.find_element_by_name("search")
         submit_btn.click()
 
@@ -106,12 +111,16 @@ class PatentExtract:
         print(patent_results)
 
 
+
         # write it to the csv
         with open(self.csv_location, 'w', newline='') as file:
             writer = csv.writer(file)
             writer.writerow(["patent-title", "patent-number", "patent-issue-date","patent-application-number"])
             for patent_result in patent_results:
                 writer.writerow(patent_result)
+
+        patent_resutls_string = str(patent_results)
+        return patent_resutls_string
 
         driver.quit()
 
