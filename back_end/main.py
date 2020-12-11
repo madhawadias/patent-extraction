@@ -15,7 +15,7 @@ def get_query():
     patent_extract_class.search_by_examiner(text = processed_text)
     patent_details = patent_extract_class.extract_patent_details()
 
-    return  patent_details
+    return  return  render_template("index.html")
 
 
 if __name__ == '__main__':
