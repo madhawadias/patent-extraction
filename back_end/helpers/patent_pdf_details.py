@@ -8,7 +8,8 @@ from chrome_downlaod import DownloadWait
 # from selenium.webdriver.chrome.options import Options
 import time
 
-
+#starting execution time
+start = time.time()
 
 chrome_driver_path = "{}/utils/chromedriver".format(get_base_path())
 
@@ -44,7 +45,9 @@ try:
         EC.presence_of_element_located((By.XPATH, '//*[@id="buttonsID"]/a'))
     )
     download_all_pdf.click()
-    paths = WebDriverWait(driver,600).until(DownloadWait.every_downloads_chrome)
+    startDownload = time.time()
+    paths = WebDriverWait(driver,7200).until(DownloadWait.every_downloads_chrome)
+    endDownload = time.time()
     print(paths)
     print("complete")
     time.sleep(10)
@@ -52,6 +55,9 @@ try:
 finally:
     driver.quit()
 
+end = time.time()
+print(f"Runtime of the program is {end - start}")
+print(f"Runtime of the download is {endDownload - startDownload}")
 
 
 
