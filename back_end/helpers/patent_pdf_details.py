@@ -81,7 +81,7 @@ def patent_pdf():
         download_all_pdf.click()
         startDownload = time.time()
         print("Downloading PDF")
-        paths = WebDriverWait(driver,7200).until(DownloadWait.every_downloads_chrome)
+        paths = WebDriverWait(driver,7500).until(DownloadWait.every_downloads_chrome)
         endDownload = time.time()
         print(paths)
         print("complete")
