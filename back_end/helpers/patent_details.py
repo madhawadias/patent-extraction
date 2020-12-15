@@ -5,6 +5,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from back_end.app import get_base_path
 import csv
 from selenium.webdriver.chrome.options import Options
+import datetime
 
 
 class PatentExtract:
@@ -13,16 +14,17 @@ class PatentExtract:
         self.list_of_titles = []
         self.list_of_links = []
         self.chrome_driver_path = "{}/utils/chromedriver".format(get_base_path())
-        self.csv_location = "{}/temp_data/patent-details.csv".format(get_base_path())
+        hi = "hello"
+        self.csv_location = "{}/temp_data/".format(get_base_path())
         self.options = Options()
         self.options.add_argument("--disable-notifications")
         self.options.add_argument("--headless")
 
     # open csv for all titles
-    def write_to_csv(self):
-        with open(self.csv_location, 'w', newline='') as file:
-            writer1 = csv.writer(file)
-            writer1.writerow(["patent-titles"])
+    # def write_to_csv(self):
+    #     with open(self.csv_location, 'w', newline='') as file:
+    #         writer1 = csv.writer(file)
+    #         writer1.writerow(["patent-titles"])
 
     # for i in range(2, 6):
 
@@ -31,10 +33,12 @@ class PatentExtract:
          # text1 = self.text
          # print(text1)
 
-
-        # with open(self.csv_location, 'w', newline='') as file:
-        #     writer = csv.writer(file)
-        #     writer.writerow(["patent-title", "patent-number", "patent-issue-date"])
+        current_date = datetime.datetime.now()
+        date_str =str(current_date.hour)+str(current_date.minute)+str(current_date.second)+str(current_date.day)+str(current_date.month)+str(current_date.year)
+        filename = str(self.csv_location + text + date_str)
+        with open(filename+".csv", 'w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow(["patent-title", "patent-number", "patent-issue-date"])
 
         driver = webdriver.Chrome(self.chrome_driver_path, chrome_options=self.options)
         driver.get("https://www.freepatentsonline.com/search.html")
@@ -64,7 +68,7 @@ class PatentExtract:
             driver.quit()
 
 
-    def extract_patent_details(self):
+    def extract_patent_details(self,text):
 
         # list_of_links = self.list_of_links
         patent_results = []
@@ -75,10 +79,10 @@ class PatentExtract:
 
         #setting up the chrome driver
         driver = webdriver.Chrome(self.chrome_driver_path, chrome_options=self.options)
-
-        with open(self.csv_location, 'w', newline='') as file:
-            writer = csv.writer(file)
-            writer.writerow(["patent-title", "patent-number", "patent-issue-date"])
+        #
+        # with open(date, 'w', newline='') as file:
+        #     writer = csv.writer(file)
+        #     writer.writerow(["patent-title", "patent-number", "patent-issue-date"])
 
         for link in self.list_of_links:
             driver.get(link)
@@ -113,7 +117,11 @@ class PatentExtract:
 
 
         # write it to the csv
-        with open(self.csv_location, 'w', newline='') as file:
+        current_date = datetime.datetime.now()
+        date_str =str(current_date.hour)+str(current_date.minute)+str(current_date.second)+str(current_date.day)+str(current_date.month)+str(current_date.year)
+        filename = str(self.csv_location+text+date_str)
+        print(filename)
+        with open(filename+".csv", 'w', newline='') as file:
             writer = csv.writer(file)
             writer.writerow(["patent-title", "patent-number", "patent-issue-date","patent-application-number"])
             for patent_result in patent_results:

@@ -13,7 +13,7 @@ def get_query():
     processed_text = text.upper()
     patent_extract_class = PatentExtract()
     patent_extract_class.search_by_examiner(text = processed_text)
-    patent_details = patent_extract_class.extract_patent_details()
+    patent_details = patent_extract_class.extract_patent_details(text = processed_text)
 
     return  patent_details
 
