@@ -33,12 +33,12 @@ class PatentExtract:
          # text1 = self.text
          # print(text1)
 
-        current_date = datetime.datetime.now()
-        date_str =str(current_date.hour)+str(current_date.minute)+str(current_date.second)+str(current_date.day)+str(current_date.month)+str(current_date.year)
-        filename = str(self.csv_location + text + date_str)
-        with open(filename+".csv", 'w', newline='') as file:
-            writer = csv.writer(file)
-            writer.writerow(["patent-title", "patent-number", "patent-issue-date"])
+        # current_date = datetime.datetime.now()
+        # date_str =str(current_date.hour)+str(current_date.minute)+str(current_date.second)+str(current_date.day)+str(current_date.month)+str(current_date.year)
+        # filename = str(self.csv_location + text + date_str)
+        # with open(filename+".csv", 'w', newline='') as file:
+        #     writer = csv.writer(file)
+        #     writer.writerow(["patent-title", "patent-number", "patent-issue-date"])
 
         driver = webdriver.Chrome(self.chrome_driver_path, chrome_options=self.options)
         driver.get("https://www.freepatentsonline.com/search.html")
@@ -118,7 +118,7 @@ class PatentExtract:
 
         # write it to the csv
         current_date = datetime.datetime.now()
-        date_str =str(current_date.hour)+str(current_date.minute)+str(current_date.second)+str(current_date.day)+str(current_date.month)+str(current_date.year)
+        date_str =" "+str(current_date.hour)+str(current_date.minute)+str(current_date.second)+" "+str(current_date.day)+str(current_date.month)+str(current_date.year)
         filename = str(self.csv_location+text+date_str)
         print(filename)
         with open(filename+".csv", 'w', newline='') as file:
@@ -131,6 +131,8 @@ class PatentExtract:
         return patent_resutls_string
 
         driver.quit()
+
+
 
 
 
