@@ -8,6 +8,7 @@ from selenium.webdriver.chrome.options import Options
 import datetime
 
 
+
 class PatentExtract:
 
     def __init__(self):
