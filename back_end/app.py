@@ -3,7 +3,7 @@ from werkzeug.utils import secure_filename
 from flask_cors import CORS
 import os
 
-from Back_End.helpers.extractPatentID import ExtractPatentId
+from back_end.helpers.extractPatentID import ExtractPatentId
 
 app = Flask(__name__)
 CORS(app)
