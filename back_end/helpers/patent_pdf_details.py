@@ -50,12 +50,13 @@ class PatentDownload:
                 patent_download_class.patent_pdf(patent_id)
 
 
-            search.send_keys(patent_id)
+            search.send_keys("12/383738")
 
             try:
                 submit = WebDriverWait(driver, 40).until(
                     EC.presence_of_element_located((By.ID, "SubmitPAIR"))
                 )
+                time.sleep(3)
             except:
                 print("redo")
                 driver.quit()
@@ -70,6 +71,7 @@ class PatentDownload:
                 image_file_wrapper = WebDriverWait(driver, 40).until(
                     EC.presence_of_element_located((By.ID, "imageFileWrapperId"))
                 )
+                time.sleep(3)
             except:
                 print("redo")
                 driver.quit()
@@ -80,9 +82,10 @@ class PatentDownload:
 
 
             try:
-                adminCheckBox = WebDriverWait(driver, 40).until(
+                adminCheckBox = WebDriverWait(driver, 10).until(
                     EC.presence_of_element_located((By.XPATH, "//td[contains(text(),'AMSB')]/following-sibling::td/following-sibling::td/following-sibling::td/following-sibling::td/descendant::input"))
                 )
+                time.sleep(2)
                 print("AMSB exisit for application number : "+ patent_id)
                 AMSB_exist = 1
             except:
@@ -98,9 +101,10 @@ class PatentDownload:
 
 
             try:
-                adminCheckBox = WebDriverWait(driver, 40).until(
+                adminCheckBox = WebDriverWait(driver, 10).until(
                     EC.presence_of_element_located((By.XPATH, "//td[contains(text(),'CLM')]/following-sibling::td/following-sibling::td/following-sibling::td/following-sibling::td/descendant::input"))
                 )
+                time.sleep(2)
                 print("CLM exisit for application number : "+ patent_id)
                 CLM_exist = 1
             except:
@@ -113,9 +117,10 @@ class PatentDownload:
                 adminCheckBox.click();
 
             try:
-                adminCheckBox = WebDriverWait(driver, 40).until(
+                adminCheckBox = WebDriverWait(driver, 10).until(
                     EC.presence_of_element_located((By.XPATH, "//td[contains(text(),'REM')]/following-sibling::td/following-sibling::td/following-sibling::td/following-sibling::td/descendant::input"))
                 )
+                time.sleep(2)
                 print("REM exisit for application number : "+ patent_id)
                 REM_exist = 1
             except:
@@ -126,7 +131,7 @@ class PatentDownload:
             if REM_exist == 1:
                 adminCheckBox.click();
 
-            time.sleep(5)
+            time.sleep(4)
 
             # try:
             #     select_all_rows = WebDriverWait(driver, 40).until(
@@ -144,6 +149,7 @@ class PatentDownload:
                 download_all_pdf = WebDriverWait(driver, 40).until(
                     EC.presence_of_element_located((By.XPATH, '//*[@id="buttonsID"]/a'))
                 )
+                time.sleep(3)
 
             except:
                 print("redo")
