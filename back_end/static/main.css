@@ -1,3 +1,4 @@
+
 body{
 background-image: url("images/bg.jpg");
 background-size:cover;
@@ -49,3 +50,51 @@ button:hover{
     border-color: silver;
     border-radius: 12px;
 }
+
+    input[type=text], select {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+
+    }
+
+    button {
+      width: 100%;
+      background-color: #4CAF50;
+      color: white;
+      padding: 14px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      height: 50px;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    div {
+      margin: auto;
+      width: 60%;
+      padding: 10px;
+    }
+
+    .background-image{
+        background-image: url("../static/Images/Back-img.jpg");
+        min-height: 100vh;
+        display: -ms-flexbox;
+        -ms-flex-pack: center;
+        justify-content: center;
+        /* -ms-flex-align: center;
+        align-items: center;  */
+        font-family: 'Poppins', sans-serif;
+        background-size: cover;
+        background-position: center center;
+        padding: 15px;
+        padding-top: 70px;
+    }
+
