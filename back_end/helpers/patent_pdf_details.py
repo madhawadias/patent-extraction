@@ -50,7 +50,7 @@ class PatentDownload:
                 patent_download_class.patent_pdf(patent_id)
 
 
-            search.send_keys("12/383738")
+            search.send_keys(patent_id)
 
             try:
                 submit = WebDriverWait(driver, 40).until(
