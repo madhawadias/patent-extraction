@@ -4,7 +4,9 @@ from back_end.helpers.patent_details import PatentExtract
 app = Flask(__name__)
 
 patent_search_endpoint = Blueprint("patent_search_service", __name__)
+patent_search_process_endpoint = Blueprint("patent_search_process_service",__name__)
 endpoint = "/patent_search_service"
+process_endpoint = "/process"
 
 
 @patent_search_endpoint.route(endpoint, methods=['GET', 'POST'])
@@ -16,7 +18,7 @@ def get_patent_search():
 # def index():
 # 	return render_template('index.html')
 
-@app.route('/process', methods=['POST'])
+@patent_search_process_endpoint.route(process_endpoint, methods=['POST'])
 def process():
     text = request.form['name']
 
