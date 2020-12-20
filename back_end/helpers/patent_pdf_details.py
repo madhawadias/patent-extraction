@@ -18,8 +18,7 @@ class PatentDownload:
         # options.add_argument("--disable-notifications")
         # options.add_argument("--headless")
 
-        #starting execution time
-
+        # starting execution time
 
         self.chrome_driver_path = "{}/utils/chromedriver".format(get_base_path())
         # search = driver.find_element_by_id("number_id")
@@ -28,7 +27,6 @@ class PatentDownload:
         # submit_btn.click()
         # time.sleep(5)
         #
-
 
     def patent_pdf(self,patent_id):
 
@@ -41,7 +39,7 @@ class PatentDownload:
         try:
             try:
                 search = WebDriverWait(driver, 40).until(
-                    EC.presence_of_element_located((By.ID,"number_id"))
+                    EC.presence_of_element_located((By.ID, "number_id"))
                 )
             except:
                 print("redo")
@@ -51,6 +49,10 @@ class PatentDownload:
 
 
             search.send_keys(patent_id)
+
+            search.send_keys("14/688463")
+            submit_btn = driver.find_element_by_id("SubmitPAIR")
+            submit_btn.click()
 
             try:
                 submit = WebDriverWait(driver, 40).until(
@@ -66,7 +68,6 @@ class PatentDownload:
             submit.click()
             print("searching for PDFs to the relevant application number")
 
-
             try:
                 image_file_wrapper = WebDriverWait(driver, 40).until(
                     EC.presence_of_element_located((By.ID, "imageFileWrapperId"))
@@ -79,7 +80,6 @@ class PatentDownload:
                 patent_download_class.patent_pdf(patent_id)
 
             image_file_wrapper.click()
-
 
             try:
                 adminCheckBox = WebDriverWait(driver, 10).until(
@@ -96,7 +96,6 @@ class PatentDownload:
 
             if AMSB_exist == 1:
                 adminCheckBox.click();
-
 
 
 
@@ -144,7 +143,6 @@ class PatentDownload:
             # select_all_rows.click()
             # print("selecting all PDFs")
 
-
             try:
                 download_all_pdf = WebDriverWait(driver, 40).until(
                     EC.presence_of_element_located((By.XPATH, '//*[@id="buttonsID"]/a'))
@@ -160,7 +158,7 @@ class PatentDownload:
             download_all_pdf.click()
             startDownload = time.time()
             print("Downloading PDF")
-            paths = WebDriverWait(driver,7500).until(DownloadWait.every_downloads_chrome)
+            paths = WebDriverWait(driver, 7500).until(DownloadWait.every_downloads_chrome)
             endDownload = time.time()
             print(paths)
             print("completed downloading pdfs for application number : " + patent_id)
@@ -172,15 +170,3 @@ class PatentDownload:
         end = time.time()
         print(f"Runtime of the program is {end - start}")
         print(f"Runtime of the download is {endDownload - startDownload}")
-
-
-
-
-
-
-
-
-
-
-
-
