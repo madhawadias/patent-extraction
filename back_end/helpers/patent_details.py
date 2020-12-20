@@ -28,10 +28,10 @@ class PatentExtract:
 
     # for i in range(2, 6):
 
-    def search_by_examiner(self,text):
+    def search_by_examiner(self, text):
         print(text)
-         # text1 = self.text
-         # print(text1)
+        # text1 = self.text
+        # print(text1)
 
         # current_date = datetime.datetime.now()
         # date_str =str(current_date.hour)+str(current_date.minute)+str(current_date.second)+str(current_date.day)+str(current_date.month)+str(current_date.year)
@@ -67,17 +67,16 @@ class PatentExtract:
         finally:
             driver.quit()
 
-
-    def extract_patent_details(self,text):
+    def extract_patent_details(self, text):
 
         # list_of_links = self.list_of_links
         patent_results = []
 
-        #disabling notifications
+        # disabling notifications
         # options = Options()
         # options.add_argument("--disable-notifications")
 
-        #setting up the chrome driver
+        # setting up the chrome driver
         driver = webdriver.Chrome(self.chrome_driver_path, chrome_options=self.options)
         #
         # with open(date, 'w', newline='') as file:
@@ -114,16 +113,15 @@ class PatentExtract:
 
         print(patent_results)
 
-
-
         # write it to the csv
         current_date = datetime.datetime.now()
-        date_str =" "+str(current_date.hour)+str(current_date.minute)+str(current_date.second)+" "+str(current_date.day)+str(current_date.month)+str(current_date.year)
-        filename = str(self.csv_location+text+date_str)
+        date_str = " " + str(current_date.hour) + str(current_date.minute) + str(current_date.second) + " " + str(
+            current_date.day) + str(current_date.month) + str(current_date.year)
+        filename = str(self.csv_location + text + date_str)
         print(filename)
-        with open(filename+".csv", 'w', newline='') as file:
+        with open(filename + ".csv", 'w', newline='') as file:
             writer = csv.writer(file)
-            writer.writerow(["patent-title", "patent-number", "patent-issue-date","patent-application-number"])
+            writer.writerow(["patent-title", "patent-number", "patent-issue-date", "patent-application-number"])
             for patent_result in patent_results:
                 writer.writerow(patent_result)
 
@@ -131,9 +129,3 @@ class PatentExtract:
         return patent_resutls_string
 
         driver.quit()
-
-
-
-
-
-

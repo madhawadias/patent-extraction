@@ -17,6 +17,8 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+def get_base_path():
+    return os.path.dirname(os.path.realpath(__file__))
 
 @app.route('/')
 def home():
@@ -52,9 +54,5 @@ def uploaded_file():
 if __name__ == '__main__':
     app.run(debug=True)
 
-import os
 
-
-def get_base_path():
-    return os.path.dirname(os.path.realpath(__file__))
 
