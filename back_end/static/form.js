@@ -2,6 +2,8 @@ $(document).ready(function() {
 
 	$('form').on('submit', function(event) {
 
+
+
 		$.ajax({
 			data : {
 				name : $('#nameInput').val(),
@@ -14,12 +16,13 @@ $(document).ready(function() {
 			if (data.error) {
 				$('#errorAlert').text(data.error).show();
 				$('#successAlert').hide();
+				$('#searching').text(data.error).hide();
 			}
 			else {
 				$('#successAlert').text(data.name).show();
 				$('#errorAlert').hide();
+				$('#searching').text(data.error).hide();
 			}
-
 		});
 
 		event.preventDefault();
@@ -27,3 +30,4 @@ $(document).ready(function() {
 	});
 
 });
+
