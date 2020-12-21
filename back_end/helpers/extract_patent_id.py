@@ -1,18 +1,20 @@
 import pandas as pd
 import re
+from back_end.helpers.patent_pdf_details import PatentDownload
 
 
 class ExtractPatentId:
 
-    def runner(file_name):
+    async def runner(file_name):
         path = 'temp_data/' + str(file_name)
-        df = pd.read_csv(path)
+        df = pd.read_csv(path, encoding="ISO-8859-1")
         ids = []
         regex = r"\b\d\d[/]\d\d\d\d\d\d"
         global patentIdCol
         patentIdCol = None
+        patent_download_class = PatentDownload()
 
-        if df.shape[0] > 0:
+        if (df.shape[0] > 0) and (not df.empty):
             if "patent-application-number" in df.columns:
                 patentIdCol = "patent-application-number"
             else:
@@ -26,7 +28,8 @@ class ExtractPatentId:
                 patentIds = df[patentIdCol]
                 for patentId in patentIds:
                     ids.append(patentId)
-                return ids
+                    await patent_download_class.runner(patent_id=patentId)
+                return "Download Completed!!"
             else:
                 return "Please enter a valid CSV file"
 

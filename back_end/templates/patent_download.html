@@ -3,22 +3,48 @@
 <head>
     <link rel="stylesheet" href="../static/main.css" />
    <link ... href="{{ url_for('static', filename='main.css') }}" />
+   <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 </head>
    <body>
       <div class="container">
          <h1>Patent ID Extractor</h1>
-      <form action = "http://localhost:5000/uploader" method = "POST"
-         enctype = "multipart/form-data">
+      <form  action = "http://localhost:5001/patent_download_service" method = "POST"
+         enctype = "multipart/form-data" name="fileinfo">
          <div class="input_box">
          <input id="patent_file" type = "file" name = "file" style="visibility: hidden;width: 0px;height: 0px;" />
               <label for="patent_file" id="patent_label">Click here to upload file</label>
          </div>
          <button type = "submit">Submit</button>
       </form>
+          <div id="msg"></div>
       </div>
 
    <script>
+      var getReq = '{{getReq}}'
+      var msg = ''
+      var timer= null
+
+      function reqListener() {
+        var res = this.responseText;
+          if(!(res==="" || res==="Downloading")){
+              clearInterval(timer)
+              timer=null
+          }
+        document.getElementById("msg").innerHTML=res
+      }
+
+      function getProgress(){
+          var oReq = new XMLHttpRequest();
+          oReq.open("GET", "/download_process", true);
+          oReq.send()
+          oReq.addEventListener('load', reqListener);
+      }
+
+      timer = setInterval(getProgress,1000)
+
+
+
       document.getElementById("patent_file").addEventListener('change', function label_change() {
       var input = this.value;
       var file_name=''

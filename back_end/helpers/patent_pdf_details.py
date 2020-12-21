@@ -19,7 +19,6 @@ class PatentDownload:
         # options.add_argument("--headless")
 
         # starting execution time
-
         self.chrome_driver_path = "{}/utils/chromedriver".format(get_base_path())
         # search = driver.find_element_by_id("number_id")
         # search.send_keys("14/688463")
@@ -28,10 +27,13 @@ class PatentDownload:
         # time.sleep(5)
         #
 
-    def patent_pdf(self,patent_id):
+    async def runner(self, patent_id):
+        self.patent_pdf(patent_id=patent_id)
+
+    def patent_pdf(self, patent_id):
 
         print(patent_id)
-
+        print(self.chrome_driver_path)
         driver = webdriver.Chrome(self.chrome_driver_path)
         driver.get("https://portal.uspto.gov/pair/PublicPair")
         start = time.time()
@@ -47,7 +49,6 @@ class PatentDownload:
                 driver.quit()
                 patent_download_class = PatentDownload()
                 patent_download_class.patent_pdf(patent_id)
-
 
             search.send_keys(patent_id)
 
@@ -79,18 +80,17 @@ class PatentDownload:
                 patent_download_class = PatentDownload()
                 patent_download_class.patent_pdf(patent_id)
 
-
-
             try:
                 adminCheckBox = WebDriverWait(driver, 10).until(
-                    EC.presence_of_element_located((By.XPATH, "//td[normalize-space(text())='AMSB']/following-sibling::td/following-sibling::td/following-sibling::td/following-sibling::td/descendant::input"))
+                    EC.presence_of_element_located((By.XPATH,
+                                                    "//td[normalize-space(text())='AMSB']/following-sibling::td/following-sibling::td/following-sibling::td/following-sibling::td/descendant::input"))
                 )
                 time.sleep(2)
-                print("AMSB exisit for application number : "+ patent_id)
+                print("AMSB exisit for application number : " + patent_id)
                 AMSB_exist = 1
             except Exception as e:
                 print(e)
-                print("AMSB Does not exisit for application number : "+ patent_id)
+                print("AMSB Does not exisit for application number : " + patent_id)
                 AMSB_exist = 0
                 # patent_download_class = PatentDownload()
                 # patent_download_class.patent_pdf(patent_id)
@@ -102,18 +102,17 @@ class PatentDownload:
                     print(e)
                     pass
 
-
-
             try:
                 adminCheckBox = WebDriverWait(driver, 10).until(
-                    EC.presence_of_element_located((By.XPATH, "//td[normalize-space(text())='CLM']/following-sibling::td/following-sibling::td/following-sibling::td/following-sibling::td/descendant::input"))
+                    EC.presence_of_element_located((By.XPATH,
+                                                    "//td[normalize-space(text())='CLM']/following-sibling::td/following-sibling::td/following-sibling::td/following-sibling::td/descendant::input"))
                 )
                 time.sleep(2)
-                print("CLM exisit for application number : "+ patent_id)
+                print("CLM exisit for application number : " + patent_id)
                 CLM_exist = 1
             except Exception as e:
                 print(e)
-                print("CLM Does not exisit for application number : "+ patent_id)
+                print("CLM Does not exisit for application number : " + patent_id)
                 CLM_exist = 0
                 # patent_download_class = PatentDownload()
                 # patent_download_class.patent_pdf(patent_id)
@@ -127,26 +126,24 @@ class PatentDownload:
 
             try:
                 adminCheckBox = WebDriverWait(driver, 10).until(
-                    EC.presence_of_element_located((By.XPATH, "//td[normalize-space(text())='REM']/following-sibling::td/following-sibling::td/following-sibling::td/following-sibling::td/descendant::input"))
+                    EC.presence_of_element_located((By.XPATH,
+                                                    "//td[normalize-space(text())='REM']/following-sibling::td/following-sibling::td/following-sibling::td/following-sibling::td/descendant::input"))
                 )
                 time.sleep(3)
-                print("REM exisit for application number : "+ patent_id)
+                print("REM exisit for application number : " + patent_id)
                 REM_exist = 1
             except Exception as e:
                 print(e)
-                print("REM Does not exisit for application number : "+ patent_id)
+                print("REM Does not exisit for application number : " + patent_id)
                 REM_exist = 0
                 # patent_download_class = PatentDownload()
                 # patent_download_class.patent_pdf(patent_id)
             if REM_exist == 1:
                 try:
-                    driver.execute_script("arguments[0].click();",adminCheckBox)
+                    driver.execute_script("arguments[0].click();", adminCheckBox)
                 except Exception as e:
                     print(e)
                     pass
-
-
-
 
             time.sleep(2)
 
