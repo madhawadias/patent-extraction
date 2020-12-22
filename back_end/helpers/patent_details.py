@@ -120,7 +120,7 @@ class PatentExtract:
             current_date.day) + str(current_date.month) + str(current_date.year)
         filename = str(self.csv_location + text + date_str)
         print(filename)
-        with open(filename + ".csv", 'w', newline='') as file:
+        with open(filename + ".csv", 'w', newline='', encoding= "utf-8") as file:
             writer = csv.writer(file)
             writer.writerow(["patent-title", "patent-number", "patent-issue-date", "patent-application-number"])
             for patent_result in patent_results:

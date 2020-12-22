@@ -1,6 +1,7 @@
 import pandas as pd
+
 from back_end.helpers.patent_pdf_details import PatentDownload
-import time
+
 
 class ExtractPatentId:
 
@@ -10,7 +11,7 @@ class ExtractPatentId:
         patentIds = df["patent-application-number"]
         ids = []
         for patentId in patentIds:
-            # print(patentId)
+            print(patentId)
             patent_download_class = PatentDownload()
             patent_download_class.patent_pdf(patentId)
 
@@ -19,4 +20,4 @@ class ExtractPatentId:
 
     # name of the csv is added below
 
-    runner(file_name="ROTARU, OCTAVIAN 154613 20122020.csv")
+    runner(file_name="LWIN, MAUNG T 16103 20122020.csv")

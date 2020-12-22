@@ -1,14 +1,16 @@
 from back_end.routes.patent_search_route import patent_search_endpoint
 from back_end.routes.patent_search_route import patent_search_process_endpoint
-from back_end.routes.patent_download_route import patent_download_service
+from back_end.routes.patent_download_route import patent_download_endpoint
+from back_end.routes.patent_download_route import patent_download_process_endpoint
 
 from back_end.app import app
-import gc
+import gc,os
 
 gc.enable()
 app.register_blueprint(patent_search_endpoint)
 app.register_blueprint(patent_search_process_endpoint)
-app.register_blueprint(patent_download_service)
+app.register_blueprint(patent_download_endpoint)
+app.register_blueprint(patent_download_process_endpoint)
 
 
 @app.route("/check", methods=["GET"])
@@ -17,9 +19,10 @@ def check():
 
 
 if __name__ == "__main__":
+    app.secret_key = os.urandom(24)
     print("Running")
     gc.enable()
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=5001)
 
 # from flask import Flask, render_template, request, jsonify
 # from back_end.helpers.patent_details import PatentExtract
