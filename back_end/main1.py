@@ -7,7 +7,7 @@ class ExtractPatentId:
 
     def runner(file_name):
         path = 'temp_data/' + str(file_name)
-        df = pd.read_csv(path, encoding="ISO-8859-1")
+        df = pd.read_csv(path, encoding="utf-8")
         patentIds = df["patent-application-number"]
         ids = []
         for patentId in patentIds:

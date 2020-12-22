@@ -7,7 +7,7 @@ class ExtractPatentId:
 
     async def runner(file_name):
         path = 'temp_data/' + str(file_name)
-        df = pd.read_csv(path, encoding="ISO-8859-1")
+        df = pd.read_csv(path, encoding="utf-8")
         ids = []
         regex = r"\b\d\d[/]\d\d\d\d\d\d"
         global patentIdCol
