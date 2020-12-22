@@ -10,13 +10,14 @@ from selenium.webdriver.chrome.options import Options
 import time
 
 
+
 class PatentDownload:
 
     def __init__(self):
 
         self.options = Options()
         self.options.add_argument("--disable-notifications")
-        self.options.add_argument("--headless")
+        # self.options.add_argument("--headless")
         self.options.add_argument('--no-sandbox')
 
         # starting execution time
@@ -36,8 +37,8 @@ class PatentDownload:
 
         print(patent_id)
         print(self.chrome_driver_path)
-        driver = webdriver.Chrome(self.chrome_driver_path)
-        # driver = webdriver.Chrome(self.chrome_driver_path, chrome_options=self.options)
+        # driver = webdriver.Chrome(self.chrome_driver_path)
+        driver = webdriver.Chrome(self.chrome_driver_path, chrome_options=self.options)
         driver.get("https://portal.uspto.gov/pair/PublicPair")
         start = time.time()
 
@@ -165,8 +166,9 @@ class PatentDownload:
                 download_all_pdf = WebDriverWait(driver, 40).until(
                     EC.presence_of_element_located((By.XPATH, '//*[@id="buttonsID"]/a'))
                 )
-                time.sleep(3)
                 download_all_pdf.click()
+                time.sleep(5)
+                print("")
 
 
             except Exception as e:
@@ -176,32 +178,32 @@ class PatentDownload:
                 patent_download_class = PatentDownload()
                 patent_download_class.patent_pdf(patent_id)
 
-            # try:
-            #     driver.get("chrome://downloads/")
-            #     download_done = WebDriverWait(driver, 10).until(
-            #             EC.presence_of_element_located((By.LINK_TEXT, 'Show in folder'))
-            #         )
-            #     download_done.click()
-            #
-            #
-            #
-            #
-            #
-            # except Exception as e:
-            #     print(e)
-
-
             try:
-                startDownload = time.time()
-                print("Downloading PDF")
-                paths = WebDriverWait(driver, 7500).until(DownloadWait.every_downloads_chrome)
-                endDownload = time.time()
-                print(paths)
-                print("completed downloading pdfs for application number : " + patent_id)
-                time.sleep(3)
+                driver.get("chrome://downloads/")
+                download_done = WebDriverWait(driver, 10).until(
+                        EC.presence_of_element_located((By.LINK_TEXT, 'Show in folder'))
+                    )
+                download_done.click()
+
+
+
+
+
             except Exception as e:
                 print(e)
 
+            #
+            # try:
+            #     startDownload = time.time()
+            #     print("Downloading PDF")
+            #     paths = WebDriverWait(driver, 7500).until(DownloadWait.every_downloads_chrome)
+            #     endDownload = time.time()
+            #     print(paths)
+            #     print("completed downloading pdfs for application number : " + patent_id)
+            #     time.sleep(3)
+            # except Exception as e:
+            #     print(e)
+            #
 
 
 
@@ -210,4 +212,4 @@ class PatentDownload:
 
         end = time.time()
         print(f"Runtime of the program is {end - start}")
-        print(f"Runtime of the download is {endDownload - startDownload}")
+        # print(f"Runtime of the download is {endDownload - startDownload}")
