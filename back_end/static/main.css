@@ -50,3 +50,24 @@ button:hover{
     border-color: silver;
     border-radius: 12px;
 }
+
+#msg-container{
+    visibility:hidden;
+    display: grid;
+    grid-template-columns: 10%90%;
+    align-content: center;
+    margin-top:10px;
+    font-weight: 400;
+    background-color: #F1E692;
+    border-radius: 10px;
+    padding: 5px;
+    width: 300px;
+    min-height: 30px;
+}
+
+#msg{
+    display: grid;
+    align-content: center;
+    text-align:start;
+    color: rgb(13, 60, 97);
+}

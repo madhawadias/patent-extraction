@@ -56,6 +56,7 @@ def get_patent_search():
                 print(e)
             state = jsonify(patentIds)
         else:
+            print("hi")
             state = "Wrong file Type!!! Please upload a correct 'csv' file"
 
     return render_template('patent_download.html', getReq=getReq)

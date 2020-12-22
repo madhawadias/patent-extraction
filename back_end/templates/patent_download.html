@@ -15,9 +15,13 @@
          <input id="patent_file" type = "file" name = "file" style="visibility: hidden;width: 0px;height: 0px;" />
               <label for="patent_file" id="patent_label">Click here to upload file</label>
          </div>
-         <button type = "submit">Submit</button>
+         <button type = "submit" id="submit-button">Submit</button>
+         <div id="msg-container">
+            <img src="../static/images/info.svg" class="info"/>
+            <div id="msg"></div>
+         </div>
+
       </form>
-          <div id="msg"></div>
       </div>
 
    <script>
@@ -27,11 +31,12 @@
 
       function reqListener() {
         var res = this.responseText;
+        document.getElementById("msg-container").style.visibility = "visible";
+        document.getElementById("msg").innerHTML=res
           if(!(res==="" || res==="Downloading")){
               clearInterval(timer)
               timer=null
           }
-        document.getElementById("msg").innerHTML=res
       }
 
       function getProgress(){
@@ -41,8 +46,17 @@
           oReq.addEventListener('load', reqListener);
       }
 
-      timer = setInterval(getProgress,1000)
+      function start_timer(){
+         timer = setInterval(getProgress,1000)
+      }
 
+      if(getReq==="1"){
+         timer = setInterval(getProgress,1000)
+      }
+
+      document.getElementById("submit-button").addEventListener('click', function on_submit() {
+      start_timer()
+      })
 
 
       document.getElementById("patent_file").addEventListener('change', function label_change() {
