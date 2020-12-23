@@ -201,6 +201,9 @@ class PatentDownload:
                 time.sleep(3)
             except Exception as e:
                 print(e)
+                driver.quit()
+                patent_download_class = PatentDownload()
+                patent_download_class.patent_pdf(patent_id)
 
 
 

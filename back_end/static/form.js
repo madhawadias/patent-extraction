@@ -2,8 +2,9 @@ $(document).ready(function() {
 
 	$('form').on('submit', function(event) {
 
-
-
+        $('#searching').text("Searching.....").show();
+        $('#errorAlert').hide();
+        $('#successAlert').hide();
 		$.ajax({
 			data : {
 				name : $('#nameInput').val(),
