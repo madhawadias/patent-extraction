@@ -28,7 +28,7 @@ class ExtractPatentId:
                 patentIds = df[patentIdCol]
                 for patentId in patentIds:
                     if re.match(regex, patentId):
-                        await patent_download_class.runner(patent_id=patentId)
+                        await patent_download_class.runner(patent_id=patentId,file_name=file_name)
                     else:
                         skiped.append(patentId)
 

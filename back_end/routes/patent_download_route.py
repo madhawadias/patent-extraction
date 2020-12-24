@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request, jsonify, Blueprint
 from werkzeug.utils import secure_filename
 from back_end.helpers.extract_patent_id import ExtractPatentId
-import os, asyncio
+from back_end.helpers.pdf_merge import PdfMerge
+import os, asyncio,glob
 
 app = Flask(__name__)
 
@@ -12,6 +13,9 @@ process_endpoint = "/download_process"
 
 UPLOAD_FOLDER = 'temp_data'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+DOWNLOAD_FOLDER = 'temp_data/pdf'
+app.config['DOWNLOAD_FOLDER'] = DOWNLOAD_FOLDER
+
 ALLOWED_EXTENSIONS = set(['csv'])
 
 getReq = ''
@@ -34,33 +38,6 @@ def getState():
 
 @patent_download_endpoint.route(endpoint, methods=['GET', 'POST'])
 def get_patent_search():
-    # if request.method == 'POST':
-    #     getReq = "1"
-    #     extract_patentId = ExtractPatentId
-    #
-    #     if not os.path.isdir(UPLOAD_FOLDER):
-    #         os.mkdir(UPLOAD_FOLDER)
-    #
-    #     f = request.files['file']
-    #
-    #     if allowed_file(f.filename):
-    #         try:
-    #             f.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(f.filename)))
-    #         except Exception as e:
-    #             state = str(e)
-    #             print(e)
-    #
-    #         try:
-    #             state = "Downloading"
-    #             res = asyncio.run(extract_patentId.runner(file_name=f.filename))
-    #         except Exception as e:
-    #             state = str(e)
-    #             print(e)
-    #         getReq = "2"
-    #         state = jsonify(res)
-    #     else:
-    #         state = "Wrong file Type!!! Please upload a correct 'csv' file"
-
     return render_template('patent_download.html')
 
 
@@ -68,13 +45,25 @@ def get_patent_search():
 def uploaded_file():
     if request.method == 'POST':
         extract_patentId = ExtractPatentId
+        merger = PdfMerge
 
         if not os.path.isdir(UPLOAD_FOLDER):
             os.mkdir(UPLOAD_FOLDER)
+            os.mkdir(DOWNLOAD_FOLDER)
 
         f = request.files['file']
 
         if allowed_file(f.filename):
+
+            download = str(DOWNLOAD_FOLDER) + "/" + str(f.filename)[0:-4]
+            if not os.path.isdir(download):
+                os.mkdir(download)
+
+            if os.listdir(download) != []:
+                files = glob.glob(download+'/*')
+                for f in files:
+                    os.remove(f)
+
             try:
                 f.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(f.filename)))
             except Exception as e:
@@ -95,6 +84,12 @@ def uploaded_file():
             except Exception as e:
                 return jsonify({'error': str(e)})
                 print(e)
+
+            try:
+                asyncio.run(merger.runner(file_name=f.filename))
+            except Exception as e:
+                print(e)
+
             return jsonify({'success': res})
         else:
             return jsonify({'error': "Wrong file Type!!! Please upload a correct 'csv' file"})
