@@ -86,6 +86,28 @@ class PatentDownload:
             try:
                 adminCheckBox = WebDriverWait(driver, 10).until(
                     EC.presence_of_element_located((By.XPATH,
+                                                    "//td[normalize-space(text())='A...']/following-sibling::td/following-sibling::td/following-sibling::td/following-sibling::td/descendant::input"))
+                )
+                time.sleep(2)
+                print("A... exisit for application number : " + patent_id)
+                A_exist = 1
+            except Exception as e:
+                print(e)
+                print("A... Does not exisit for application number : " + patent_id)
+                A_exist = 0
+                # patent_download_class = PatentDownload()
+                # patent_download_class.patent_pdf(patent_id)
+
+            if A_exist == 1:
+                try:
+                    driver.execute_script("arguments[0].click();", adminCheckBox)
+                except Exception as e:
+                    print(e)
+                    pass
+
+            try:
+                adminCheckBox = WebDriverWait(driver, 10).until(
+                    EC.presence_of_element_located((By.XPATH,
                                                     "//td[normalize-space(text())='AMSB']/following-sibling::td/following-sibling::td/following-sibling::td/following-sibling::td/descendant::input"))
                 )
                 time.sleep(2)
