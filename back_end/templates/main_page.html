@@ -35,16 +35,24 @@
                 text-align:center;
                 font-weight: lighter;
                 font-size: 40px;
+                cursor: pointer;
 
             }
             .column1{
 
                 padding-top: 50px;
 
+
+
             }
             .column2{
 
                 padding-top: 50px;
+
+            }
+            .column3{
+
+                padding-top: 20px;
 
             }
             .column:hover{
@@ -74,15 +82,21 @@
     </div>
 
     <div class="row">
-        <div class="column column1">
-            <p>Download patent Details</p>
-        </div>
-        <div class="column column2">
-            <p>Download patent PDFs</p>
-        </div>
-        <div class="column">
-            <p>Patent Examiner Research</p>
-        </div>
+        <a href="http://127.0.0.1:5001/patent_search_service">
+            <div class="column column1">
+                <p>Download patent Details</p>
+            </div>
+        </a>
+        <a href="http://127.0.0.1:5001/patent_download_service">
+            <div class="column column2">
+                <p>Download patent PDFs</p>
+            </div>
+        </a>
+        <a href="http://google.com">
+            <div class="column column3">
+                <p>Patent Examiner Research</p>
+            </div>
+        </a>
     </div>
 
 
