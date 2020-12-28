@@ -8,9 +8,9 @@ class ExtractPatentId:
     async def runner(file_name):
         path = 'temp_data/' + str(file_name)
         df = pd.read_csv(path, encoding="utf-8")
-        ids = []
         regex = r"\b\d\d[/]\d\d\d\d\d\d"
         global patentIdCol
+        skiped=[]
         patentIdCol = None
         patent_download_class = PatentDownload()
 
@@ -27,9 +27,15 @@ class ExtractPatentId:
             if patentIdCol:
                 patentIds = df[patentIdCol]
                 for patentId in patentIds:
-                    ids.append(patentId)
-                    await patent_download_class.runner(patent_id=patentId)
-                return "Download Completed!!"
+                    if re.match(regex, patentId):
+                        await patent_download_class.runner(patent_id=patentId,file_name=file_name)
+                    else:
+                        skiped.append(patentId)
+
+                if skiped:
+                    return skiped
+                else:
+                    return "Download Completed!!"
             else:
                 return "Please enter a valid CSV file"
 

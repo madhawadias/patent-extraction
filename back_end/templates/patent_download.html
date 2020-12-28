@@ -1,6 +1,7 @@
 
 <html>
 <head>
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link rel="stylesheet" href="../static/main.css" />
    <link ... href="{{ url_for('static', filename='main.css') }}" />
    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
@@ -9,41 +10,49 @@
    <body>
       <div class="container">
          <h1>Patent ID Extractor</h1>
-      <form  action = "http://localhost:5001/patent_download_service" method = "POST"
-         enctype = "multipart/form-data" name="fileinfo">
+      <form class ="form" id="myForm">
          <div class="input_box">
-         <input id="patent_file" type = "file" name = "file" style="visibility: hidden;width: 0px;height: 0px;" />
+         <input id="patent_file" type = "file" enctype="multipart/form-data" name = "file" style="visibility: hidden;width: 0px;height: 0px;" />
               <label for="patent_file" id="patent_label">Click here to upload file</label>
          </div>
-         <button type = "submit">Submit</button>
+         <button type = "submit" id="submit-button">Submit</button>
+
+        <div id="downloading" class="alert alert-info" role="alert" style="display:none;"></div>
+        <div id="successAlert" class="alert alert-success" role="alert" style="display:none;"></div>
+        <div id="errorAlert" class="alert alert-danger" role="alert" style="display:none;"></div>
       </form>
-          <div id="msg"></div>
       </div>
 
    <script>
-      var getReq = '{{getReq}}'
-      var msg = ''
-      var timer= null
+   var form = document.getElementById("myForm");
 
-      function reqListener() {
-        var res = this.responseText;
-          if(!(res==="" || res==="Downloading")){
-              clearInterval(timer)
-              timer=null
-          }
-        document.getElementById("msg").innerHTML=res
+   function handleForm(event) {
+      event.preventDefault();
+      document.getElementById("downloading").innerHTML="Downloading....."
+      document.getElementById("downloading").style.display = "block";
+      document.getElementById("errorAlert").style.display = "none";
+      document.getElementById("successAlert").style.display = "none";
+
+      var oData = new FormData(form);
+      var oReq = new XMLHttpRequest();
+      oReq.open("POST", "/download_process", true);
+      oReq.onload = function(oEvent) {
+        if (JSON.parse(oReq.responseText).error) {
+              document.getElementById("errorAlert").innerHTML=(JSON.parse(oReq.responseText).error)
+              document.getElementById("errorAlert").style.display = "block";
+              document.getElementById("downloading").style.display = "none";
+              document.getElementById("successAlert").style.display = "none";
+        } else {
+              document.getElementById("successAlert").innerHTML=(JSON.parse(oReq.responseText).success)
+              document.getElementById("successAlert").style.display = "block";
+              document.getElementById("downloading").style.display = "none";
+              document.getElementById("errorAlert").style.display = "none";
+        }
+      };
+      oReq.send(oData);
       }
 
-      function getProgress(){
-          var oReq = new XMLHttpRequest();
-          oReq.open("GET", "/download_process", true);
-          oReq.send()
-          oReq.addEventListener('load', reqListener);
-      }
-
-      timer = setInterval(getProgress,1000)
-
-
+      form.addEventListener('submit', handleForm);
 
       document.getElementById("patent_file").addEventListener('change', function label_change() {
       var input = this.value;

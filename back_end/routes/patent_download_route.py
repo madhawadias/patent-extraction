@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request, jsonify, Blueprint
 from werkzeug.utils import secure_filename
 from back_end.helpers.extract_patent_id import ExtractPatentId
-import os, asyncio, time
+from back_end.helpers.pdf_merge import PdfMerge
+import os, asyncio,glob
 
 app = Flask(__name__)
 
@@ -12,9 +13,11 @@ process_endpoint = "/download_process"
 
 UPLOAD_FOLDER = 'temp_data'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+DOWNLOAD_FOLDER = 'temp_data/pdf'
+app.config['DOWNLOAD_FOLDER'] = DOWNLOAD_FOLDER
+
 ALLOWED_EXTENSIONS = set(['csv'])
 
-exporting_threads = {}
 getReq = ''
 state = ''
 
@@ -23,68 +26,70 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+
 def getState():
+    global getReq
     global state
+    if getReq == "2":
+        getReq = ''
+
     return state
+
 
 @patent_download_endpoint.route(endpoint, methods=['GET', 'POST'])
 def get_patent_search():
-    global getReq
-    global state
+    return render_template('patent_download.html')
 
+
+@patent_download_process_endpoint.route(process_endpoint, methods=['POST'])
+def uploaded_file():
     if request.method == 'POST':
-        getReq = "1"
         extract_patentId = ExtractPatentId
+        merger = PdfMerge
 
         if not os.path.isdir(UPLOAD_FOLDER):
             os.mkdir(UPLOAD_FOLDER)
+            os.mkdir(DOWNLOAD_FOLDER)
 
         f = request.files['file']
 
         if allowed_file(f.filename):
+
+            download = str(DOWNLOAD_FOLDER) + "/" + str(f.filename)[0:-4]
+            if not os.path.isdir(download):
+                os.mkdir(download)
+
+            if os.listdir(download) != []:
+                files = glob.glob(download+'/*')
+                for f in files:
+                    os.remove(f)
+
             try:
                 f.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(f.filename)))
             except Exception as e:
-                state = str(e)
+                return jsonify({'error': str(e)})
                 print(e)
 
             try:
-                state = "Downloading"
-                patentIds = asyncio.run(extract_patentId.runner(file_name=f.filename))
+                res = asyncio.run(extract_patentId.runner(file_name=f.filename))
+                if type(res) is list:
+                    global text
+                    text = "Following file(s) were skiped : "
+                    if len(res) == 1:
+                        text = text + str(res[0]) + ","
+                    else:
+                        for skip in res:
+                            text = text + str(skip) + ","
+                    res = text[:-1]
             except Exception as e:
-                state = str(e)
+                return jsonify({'error': str(e)})
                 print(e)
-            state = jsonify(patentIds)
+
+            try:
+                asyncio.run(merger.runner(file_name=f.filename))
+            except Exception as e:
+                print(e)
+
+            return jsonify({'success': res})
         else:
-            state = "Wrong file Type!!! Please upload a correct 'csv' file"
-
-    return render_template('patent_download.html', getReq=getReq)
-
-
-@patent_download_process_endpoint.route(process_endpoint, methods=['GET', 'POST'])
-def uploaded_file():
-    global state
-    return str(state)
-
-    # if request.method == 'POST':
-    #     extract_patentId = ExtractPatentId
-    #
-    #     if not os.path.isdir(UPLOAD_FOLDER):
-    #         os.mkdir(UPLOAD_FOLDER)
-    #
-    #     f = request.files['file']
-    #
-    #     if allowed_file(f.filename):
-    #         try:
-    #             f.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(f.filename)))
-    #         except Exception as e:
-    #             print(e)
-    #
-    #         try:
-    #             patentIds = asyncio.run(extract_patentId.runner(file_name=f.filename))
-    #         except Exception as e:
-    #             print(e)
-    #
-    #         return jsonify(patentIds)
-    #     else:
-    #         return "Wrong file Type!!! Please upload a correct 'csv' file"
+            return jsonify({'error': "Wrong file Type!!! Please upload a correct 'csv' file"})

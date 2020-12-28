@@ -28,15 +28,19 @@ class PatentDownload:
         # time.sleep(5)
         #
 
-    async def runner(self, patent_id):
-        self.patent_pdf(patent_id=patent_id)
+    async def runner(self, patent_id,file_name):
+        self.patent_pdf(patent_id=patent_id,file_name=file_name)
 
 
-    def patent_pdf(self, patent_id):
-
+    def patent_pdf(self, patent_id,file_name):
+        options = webdriver.ChromeOptions()
+        path="{}\\temp_data\\pdf\\"+str(file_name)[0:-4]
+        path=path.format(get_base_path())
+        prefs = {'download.default_directory': path}
+        options.add_experimental_option('prefs', prefs)
         print(patent_id)
         print(self.chrome_driver_path)
-        driver = webdriver.Chrome(self.chrome_driver_path)
+        driver = webdriver.Chrome(self.chrome_driver_path,chrome_options=options)
         # driver = webdriver.Chrome(self.chrome_driver_path, chrome_options=self.options)
         driver.get("https://portal.uspto.gov/pair/PublicPair")
         start = time.time()
@@ -51,7 +55,7 @@ class PatentDownload:
                 print("redo")
                 driver.quit()
                 patent_download_class = PatentDownload()
-                patent_download_class.patent_pdf(patent_id)
+                patent_download_class.patent_pdf(patent_id=patent_id,file_name=file_name)
 
             search.send_keys(patent_id)
 
@@ -65,7 +69,7 @@ class PatentDownload:
                 print("redo")
                 driver.quit()
                 patent_download_class = PatentDownload()
-                patent_download_class.patent_pdf(patent_id)
+                patent_download_class.patent_pdf(patent_id=patent_id,file_name=file_name)
 
             submit.click()
             print("searching for PDFs to the relevant application number")
@@ -81,7 +85,29 @@ class PatentDownload:
                 print("redo")
                 driver.quit()
                 patent_download_class = PatentDownload()
-                patent_download_class.patent_pdf(patent_id)
+                patent_download_class.patent_pdf(patent_id=patent_id,file_name=file_name)
+
+            try:
+                adminCheckBox = WebDriverWait(driver, 10).until(
+                    EC.presence_of_element_located((By.XPATH,
+                                                    "//td[normalize-space(text())='A...']/following-sibling::td/following-sibling::td/following-sibling::td/following-sibling::td/descendant::input"))
+                )
+                time.sleep(2)
+                print("A... exisit for application number : " + patent_id)
+                A_exist = 1
+            except Exception as e:
+                print(e)
+                print("A... Does not exisit for application number : " + patent_id)
+                A_exist = 0
+                # patent_download_class = PatentDownload()
+                # patent_download_class.patent_pdf(patent_id=patent_id,file_name=file_name)
+
+            if A_exist == 1:
+                try:
+                    driver.execute_script("arguments[0].click();", adminCheckBox)
+                except Exception as e:
+                    print(e)
+                    pass
 
             try:
                 adminCheckBox = WebDriverWait(driver, 10).until(
@@ -96,7 +122,7 @@ class PatentDownload:
                 print("AMSB Does not exisit for application number : " + patent_id)
                 AMSB_exist = 0
                 # patent_download_class = PatentDownload()
-                # patent_download_class.patent_pdf(patent_id)
+                # patent_download_class.patent_pdf(patent_id=patent_id,file_name=file_name)
 
             if AMSB_exist == 1:
                 try:
@@ -118,7 +144,7 @@ class PatentDownload:
                 print("CLM Does not exisit for application number : " + patent_id)
                 CLM_exist = 0
                 # patent_download_class = PatentDownload()
-                # patent_download_class.patent_pdf(patent_id)
+                # patent_download_class.patent_pdf(patent_id=patent_id,file_name=file_name)
 
             if CLM_exist == 1:
                 try:
@@ -140,7 +166,7 @@ class PatentDownload:
                 print("REM Does not exisit for application number : " + patent_id)
                 REM_exist = 0
                 # patent_download_class = PatentDownload()
-                # patent_download_class.patent_pdf(patent_id)
+                # patent_download_class.patent_pdf(patent_id=patent_id,file_name=file_name)
             if REM_exist == 1:
                 try:
                     driver.execute_script("arguments[0].click();", adminCheckBox)
@@ -174,7 +200,7 @@ class PatentDownload:
                 print("redo")
                 driver.quit()
                 patent_download_class = PatentDownload()
-                patent_download_class.patent_pdf(patent_id)
+                patent_download_class.patent_pdf(patent_id=patent_id,file_name=file_name)
 
             # try:
             #     driver.get("chrome://downloads/")
@@ -201,6 +227,9 @@ class PatentDownload:
                 time.sleep(3)
             except Exception as e:
                 print(e)
+                driver.quit()
+                patent_download_class = PatentDownload()
+                patent_download_class.patent_pdf(patent_id=patent_id,file_name=file_name)
 
 
 
