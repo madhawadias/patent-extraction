@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+    <head>
+
+        <title>My Patent</title>
+        <style>
+
+            body{
+                background-color: #00001E;
+                font-family: Arial;
+            }
+
+            .center {
+                 margin: auto;
+                 width: 60%;
+                 padding: 10px;
+
+            }
+
+            .centerIcon{
+                 text-align:center;
+            }
+
+            .container2 {
+                display: flex;
+                flex-wrap: wrap;
+                margin-top: 2%;
+                margin-right: 25%;
+                margin-left: 25%;
+            }
+            a{
+                text-decoration: none;
+                color:#F9F9F9;
+            }
+
+            .column {
+                flex: 1;
+                min-width: 10%;
+                float: left;
+                padding:2%;
+                height: 300px;
+                margin: 5px;
+                background-color:#00001E;
+                color:#F9F9F9;
+                border-style: solid;
+                border-color:#273145;
+                text-align:center;
+                font-weight: lighter;
+                font-size: 40px;
+                cursor: pointer;
+                flex: 1;
+
+            }
+
+            .column:hover{
+                background-color:#20273d;
+            }
+
+            @media (max-width:500px) {
+                .column {
+                    min-width: 50%;
+
+                }
+            }
+
+
+
+        </style>
+
+
+    </head>
+
+
+    <body>
+
+        <div class = "container1 center centerIcon">
+            <img src="../static/Images/Icon.png">
+        </div>
+
+        <div class="container2 col1">
+                <div class="column">
+                    <a href="http://127.0.0.1:5001/patent_search_service">
+                        <p>Download patent Details</p>
+                    </a>
+                </div>
+                <div class="column col2">
+                    <a href="http://127.0.0.1:5001/patent_download_service">
+                        <p>Download patent PDFs</p>
+                    </a>
+                </div>
+                <div class="column col3">
+                    <p>Patent Examiner Research</p>
+                </div>
+        </div>
+    </body>
+</html>
