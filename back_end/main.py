@@ -2,6 +2,8 @@ from back_end.routes.patent_search_route import patent_search_endpoint
 from back_end.routes.patent_search_route import patent_search_process_endpoint
 from back_end.routes.patent_download_route import patent_download_endpoint
 from back_end.routes.patent_download_route import patent_download_process_endpoint
+from back_end.routes.patent_mainpage_route import patent_mainpage_endpoint
+from flask import render_template
 
 from back_end.app import app
 import gc,os
@@ -11,6 +13,8 @@ app.register_blueprint(patent_search_endpoint)
 app.register_blueprint(patent_search_process_endpoint)
 app.register_blueprint(patent_download_endpoint)
 app.register_blueprint(patent_download_process_endpoint)
+app.register_blueprint(patent_mainpage_endpoint)
+
 
 
 @app.route("/check", methods=["GET"])
@@ -24,7 +28,7 @@ if __name__ == "__main__":
     gc.enable()
     app.run(host="0.0.0.0", port=5001)
 
-# from flask import Flask, render_template, request, jsonify
+
 # from back_end.helpers.patent_details import PatentExtract
 #
 # app = Flask(__name__)
