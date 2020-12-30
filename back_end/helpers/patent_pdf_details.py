@@ -239,6 +239,6 @@ class PatentDownload:
         finally:
             driver.quit()
 
-        end = time.time()
-        print(f"Runtime of the program is {end - start}")
+        # end = time.time()
+        # print(f"Runtime of the program is {end - start}")
         # print(f"Runtime of the download is {endDownload - startDownload}")

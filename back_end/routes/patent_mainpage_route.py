@@ -4,7 +4,7 @@ from back_end.helpers.patent_details import PatentExtract
 app = Flask(__name__)
 
 patent_mainpage_endpoint = Blueprint("patent_mainpage_service", __name__)
-endpoint = "/patent_mainpage_service"
+endpoint = "/"
 
 
 @patent_mainpage_endpoint.route(endpoint, methods=['GET', 'POST'])

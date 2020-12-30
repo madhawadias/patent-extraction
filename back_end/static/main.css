@@ -2,14 +2,18 @@
 body{
 background-image: url("images/bg.jpg");
 background-size:cover;
-display:grid;
-align-items: center;
-justify-content: center;
 background-color:#fafafa;
 color:rgba(0, 0, 0, 0.87);
 height:100vh;
 font-family: 'Roboto', sans-serif;
+}
+
+.main{
+justify-content: center;
+display:grid;
+align-items: center;
 text-align:center;
+
 }
 
 .container{
@@ -49,4 +53,50 @@ button:hover{
     border-width: thin;
     border-color: silver;
     border-radius: 12px;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+  opacity: 0.9;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: Large;
+}
+
+li a:hover:not(.active) {
+  background-color: #111;
+}
+
+.active {
+  background-color: #4CAF50;
+}
+
+a:link {
+  text-decoration: none;
+}
+
+a:visited {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a:active {
+  text-decoration: none;
 }
