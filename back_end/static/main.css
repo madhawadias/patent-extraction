@@ -1,6 +1,5 @@
 
 body{
-background-image: url("images/bg.jpg");
 background-size:cover;
 background-color:#fafafa;
 color:rgba(0, 0, 0, 0.87);
@@ -31,7 +30,7 @@ text-align:-webkit-center;
 
 button{
   margin:20px 0px;
-  background-color:#2E86C1;
+  background-color:#00001E;
   padding: 10px 32px;
   text-align: center;
   transition-duration: 0.4s;
@@ -82,7 +81,7 @@ li a:hover:not(.active) {
 }
 
 .active {
-  background-color: #4CAF50;
+  background-color: #00001E;
 }
 
 a:link {
