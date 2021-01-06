@@ -11,7 +11,15 @@ class ExtractPatentId:
         ids = []
         for patentId in patentIds:
             print(patentId)
-            patent_download_class = PatentDownload()
-            patent_download_class.patent_pdf(patentId,file_name)
 
-            ids.append(patentId)
+            patentId_lowercase = patentId.lower()
+
+            contains_letters = patentId_lowercase.islower()
+
+            if contains_letters == True:
+                print("contains a letter")
+            else:
+                print("does not contain  a letter")
+                patent_download_class = PatentDownload()
+                patent_download_class.patent_pdf(patentId, file_name)
+                ids.append(patentId)
