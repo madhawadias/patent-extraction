@@ -118,15 +118,17 @@ class PatentExtract:
         current_date = datetime.datetime.now()
         date_str = " " + str(current_date.hour) + str(current_date.minute) + str(current_date.second) + " " + str(
             current_date.day) + str(current_date.month) + str(current_date.year)
-        filename = str(self.csv_location + text + date_str)
-        print(filename)
-        with open(filename + ".csv", 'w', newline='', encoding= "utf-8") as file:
+        filename = text + date_str
+        filepath = str(self.csv_location + filename)
+        print(filepath)
+        with open(filepath + ".csv", 'w', newline='', encoding= "utf-8") as file:
             writer = csv.writer(file)
             writer.writerow(["patent-title", "patent-number", "patent-issue-date", "patent-application-number"])
             for patent_result in patent_results:
                 writer.writerow(patent_result)
+        filenamecsv = filename+".csv"
 
         patent_resutls_string = str(patent_results)
-        return patent_resutls_string
+        return filenamecsv
 
         driver.quit()
