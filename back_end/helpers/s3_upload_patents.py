@@ -4,8 +4,8 @@ from botocore.client import Config
 
 class AmazolnS3:
     def __init__(self, bucket_name):
-        self.ACCESS_KEY_ID = "AKIAJ3QCC42THAIRL33A"
-        self.ACCESS_SECRET_KEY = "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"
+        self.ACCESS_KEY_ID = ""
+        self.ACCESS_SECRET_KEY = ""
         self.BUCKET_NAME = bucket_name
 
     def upload(self, file, file_name):
