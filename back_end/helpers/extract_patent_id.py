@@ -35,7 +35,8 @@ class ExtractPatentId:
                 if skiped:
                     return skiped
                 else:
-                    return "Download Completed!!"
+                    S3_BASE_URL = "https://patents-jerry.s3.us-east-2.amazonaws.com/{}.pdf".format(file_name[:-4])
+                    return "Download Completed!!"+" Get your file from here: "+S3_BASE_URL
             else:
                 return "Please enter a valid CSV file"
 
