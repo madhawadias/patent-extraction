@@ -1,13 +1,13 @@
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from back_end.app import get_base_path
-from back_end.helpers.chrome_download import DownloadWait
-from selenium.webdriver.chrome.options import Options
 # import csv
-
 import time
+
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
+
+from back_end.app import get_base_path
 
 
 class PatentDownload:
@@ -19,8 +19,11 @@ class PatentDownload:
         self.options.add_argument("--headless")
         self.options.add_argument('--no-sandbox')
 
+        self.options.add_experimental_option("excludeSwitches", ["enable-automation"])
+        self.options.add_experimental_option('useAutomationExtension', False)
+
         # starting execution time
-        self.chrome_driver_path = "{}/utils/chromedriver".format(get_base_path())
+        self.chrome_driver_path = "{}/utils/chromedriver.exe".format(get_base_path())
         # search = driver.find_element_by_id("number_id")
         # search.send_keys("14/688463")
         # submit_btn = driver.find_element_by_id("SubmitPAIR")
@@ -28,19 +31,21 @@ class PatentDownload:
         # time.sleep(5)
         #
 
-    async def runner(self, patent_id,file_name):
-        self.patent_pdf(patent_id=patent_id,file_name=file_name)
+    async def runner(self, patent_id, file_name):
+        self.patent_pdf(patent_id=patent_id, file_name=file_name)
 
-
-    def patent_pdf(self, patent_id,file_name):
-        options = webdriver.ChromeOptions()
-        path="{}\\temp_data\\pdf\\"+str(file_name)[0:-4]
-        path=path.format(get_base_path())
-        prefs = {'download.default_directory': path}
-        options.add_experimental_option('prefs', prefs)
+    def patent_pdf(self, patent_id, file_name):
+        # options = webdriver.ChromeOptions()
+        options = self.options
+        path = "{}\\temp_data\\pdf\\{}".format(get_base_path(), file_name[0:-4])
+        # prefs = {'download.default_directory': path}
+        # options.add_experimental_option('prefs', prefs)
         print(patent_id)
+
         print(self.chrome_driver_path)
-        driver = webdriver.Chrome(self.chrome_driver_path,chrome_options=options)
+        driver = webdriver.Chrome(self.chrome_driver_path, chrome_options=options)
+        params = {'behavior': 'allow', 'downloadPath': path}
+        driver.execute_cdp_cmd('Page.setDownloadBehavior', params)
         # driver = webdriver.Chrome(self.chrome_driver_path, chrome_options=self.options)
         driver.get("https://portal.uspto.gov/pair/PublicPair")
         start = time.time()
@@ -55,7 +60,7 @@ class PatentDownload:
                 print("redo")
                 driver.quit()
                 patent_download_class = PatentDownload()
-                patent_download_class.patent_pdf(patent_id=patent_id,file_name=file_name)
+                patent_download_class.patent_pdf(patent_id=patent_id, file_name=file_name)
 
             search.send_keys(patent_id)
 
@@ -69,7 +74,7 @@ class PatentDownload:
                 print("redo")
                 driver.quit()
                 patent_download_class = PatentDownload()
-                patent_download_class.patent_pdf(patent_id=patent_id,file_name=file_name)
+                patent_download_class.patent_pdf(patent_id=patent_id, file_name=file_name)
 
             submit.click()
             print("searching for PDFs to the relevant application number")
@@ -85,7 +90,7 @@ class PatentDownload:
                 print("redo")
                 driver.quit()
                 patent_download_class = PatentDownload()
-                patent_download_class.patent_pdf(patent_id=patent_id,file_name=file_name)
+                patent_download_class.patent_pdf(patent_id=patent_id, file_name=file_name)
 
             try:
                 adminCheckBox = WebDriverWait(driver, 10).until(
@@ -200,7 +205,7 @@ class PatentDownload:
                 print("redo")
                 driver.quit()
                 patent_download_class = PatentDownload()
-                patent_download_class.patent_pdf(patent_id=patent_id,file_name=file_name)
+                patent_download_class.patent_pdf(patent_id=patent_id, file_name=file_name)
 
             try:
                 # startDownload = time.time()
@@ -242,3 +247,5 @@ class PatentDownload:
         # end = time.time()
         # print(f"Runtime of the program is {end - start}")
         # print(f"Runtime of the download is {endDownload - startDownload}")
+
+# PatentDownload().patent_pdf(patent_id="15/617585", file_name="test.csv")

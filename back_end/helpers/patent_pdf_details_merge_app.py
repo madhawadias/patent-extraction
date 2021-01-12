@@ -21,5 +21,5 @@ class ExtractPatentId:
             else:
                 print("does not contain  a letter")
                 patent_download_class = PatentDownload()
-                patent_download_class.patent_pdf(patentId, file_name)
+                patent_download_class.patent_pdf(patent_id=patentId, file_name=file_name)
                 ids.append(patentId)

@@ -28,7 +28,7 @@ def process():
         try:
             patent_extract_class = PatentExtract()
             patent_extract_class.search_by_examiner(text=text)
-            patent_extract_class.extract_patent_details(text=text)
+            # patent_extract_class.extract_patent_details(text=text)
             filename = patent_extract_class.extract_patent_details(text=text)
             print(filename)
             patent_download_class = ExtractPatentId()
