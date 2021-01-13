@@ -42,8 +42,8 @@ class PatentExtract:
         # with open(filename+".csv", 'w', newline='') as file:
         #     writer = csv.writer(file)
         #     writer.writerow(["patent-title", "patent-number", "patent-issue-date"])
-        # driver = webdriver.Chrome("/usr/lib/chromium-browser/chromedriver", chrome_options=self.options)
-        driver = webdriver.Chrome(self.chrome_driver_path, chrome_options=self.options)
+        driver = webdriver.Chrome("/usr/lib/chromium-browser/chromedriver", chrome_options=self.options)
+        # driver = webdriver.Chrome(self.chrome_driver_path, chrome_options=self.options)
         driver.get("https://www.freepatentsonline.com/search.html")
         print(driver.title)
         # search the author
