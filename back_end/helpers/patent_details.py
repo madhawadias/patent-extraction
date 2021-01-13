@@ -10,12 +10,12 @@ from selenium.webdriver.chrome.options import Options
 import datetime
 
 
-
 class PatentExtract:
 
     def __init__(self):
         self.list_of_titles = []
         self.list_of_links = []
+        # self.chrome_driver_path = "{}/utils/chromedriver.exe".format(get_base_path())
         self.chrome_driver_path = "{}/utils/chromedriver".format(get_base_path())
         hi = "hello"
         self.csv_location = "{}/temp_data/".format(get_base_path())
@@ -42,7 +42,7 @@ class PatentExtract:
         # with open(filename+".csv", 'w', newline='') as file:
         #     writer = csv.writer(file)
         #     writer.writerow(["patent-title", "patent-number", "patent-issue-date"])
-
+        # driver = webdriver.Chrome("/usr/lib/chromium-browser/chromedriver", chrome_options=self.options)
         driver = webdriver.Chrome(self.chrome_driver_path, chrome_options=self.options)
         driver.get("https://www.freepatentsonline.com/search.html")
         print(driver.title)
@@ -80,6 +80,7 @@ class PatentExtract:
         # options.add_argument("--disable-notifications")
 
         # setting up the chrome driver
+        # driver = webdriver.Chrome("/usr/lib/chromium-browser/chromedriver", chrome_options=self.options)
         driver = webdriver.Chrome(self.chrome_driver_path, chrome_options=self.options)
         #
         # with open(date, 'w', newline='') as file:
@@ -118,17 +119,18 @@ class PatentExtract:
 
         # write it to the csv
         current_date = datetime.datetime.now()
-        date_str = " " + str(current_date.hour) + str(current_date.minute) + str(current_date.second) + " " + str(
+        date_str = "_" + str(current_date.hour) + str(current_date.minute) + str(current_date.second) + "_" + str(
             current_date.day) + str(current_date.month) + str(current_date.year)
         filename = text + date_str
+        filename=filename.upper().replace(" ", "_")
         filepath = str(self.csv_location + filename)
         print(filepath)
-        with open(filepath + ".csv", 'w', newline='', encoding= "utf-8") as file:
+        with open(filepath + ".csv", 'w', newline='', encoding="utf-8") as file:
             writer = csv.writer(file)
             writer.writerow(["patent-title", "patent-number", "patent-issue-date", "patent-application-number"])
             for patent_result in patent_results:
                 writer.writerow(patent_result)
-        filenamecsv = filename+".csv"
+        filenamecsv = filename + ".csv"
 
         patent_resutls_string = str(patent_results)
         return filenamecsv

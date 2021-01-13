@@ -1,11 +1,12 @@
 import pandas as pd
 from back_end.helpers.patent_pdf_details import PatentDownload
-
+from back_end.app import get_base_path
 
 class ExtractPatentId:
 
     def download_pdf(self,file_name):
-        path = 'temp_data/' + str(file_name)
+        print(file_name)
+        path = '{}/temp_data/{}'.format(get_base_path(),str(file_name))
         df = pd.read_csv(path, encoding="utf-8")
         patentIds = df["patent-application-number"]
         ids = []

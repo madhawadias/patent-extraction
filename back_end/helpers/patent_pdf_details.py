@@ -24,6 +24,7 @@ class PatentDownload:
 
         # starting execution time
         self.chrome_driver_path = "{}/utils/chromedriver.exe".format(get_base_path())
+        # self.chrome_driver_path = "{}/utils/chromedriver".format(get_base_path())
         # search = driver.find_element_by_id("number_id")
         # search.send_keys("14/688463")
         # submit_btn = driver.find_element_by_id("SubmitPAIR")
@@ -43,6 +44,7 @@ class PatentDownload:
         print(patent_id)
 
         print(self.chrome_driver_path)
+        # driver = webdriver.Chrome("/usr/lib/chromium-browser/chromedriver", chrome_options=options)
         driver = webdriver.Chrome(self.chrome_driver_path, chrome_options=options)
         params = {'behavior': 'allow', 'downloadPath': path}
         driver.execute_cdp_cmd('Page.setDownloadBehavior', params)

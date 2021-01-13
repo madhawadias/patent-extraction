@@ -11,9 +11,9 @@ patent_download_process_endpoint = Blueprint("patent_download_process_service", 
 endpoint = "/patent_download_service"
 process_endpoint = "/download_process"
 
-UPLOAD_FOLDER = 'temp_data'
+UPLOAD_FOLDER = 'back_end/temp_data'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-DOWNLOAD_FOLDER = 'temp_data/pdf'
+DOWNLOAD_FOLDER = 'back_end/temp_data/pdf'
 app.config['DOWNLOAD_FOLDER'] = DOWNLOAD_FOLDER
 
 ALLOWED_EXTENSIONS = set(['csv'])
