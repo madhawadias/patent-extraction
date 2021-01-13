@@ -80,8 +80,8 @@ class PatentExtract:
         # options.add_argument("--disable-notifications")
 
         # setting up the chrome driver
-        # driver = webdriver.Chrome("/usr/lib/chromium-browser/chromedriver", chrome_options=self.options)
-        driver = webdriver.Chrome(self.chrome_driver_path, chrome_options=self.options)
+        driver = webdriver.Chrome("/usr/lib/chromium-browser/chromedriver", chrome_options=self.options)
+        # driver = webdriver.Chrome(self.chrome_driver_path, chrome_options=self.options)
         #
         # with open(date, 'w', newline='') as file:
         #     writer = csv.writer(file)
