@@ -72,6 +72,8 @@ def uploaded_file():
 
             try:
                 res = asyncio.run(extract_patentId.runner(file_name=f.filename))
+                filename=f.file_name
+                S3_BASE_URL = "https://patents-jerry.s3.us-east-2.amazonaws.com/{}.pdf".format(filename[:-4])
                 if type(res) is list:
                     global text
                     text = "Following file(s) were skiped : "
@@ -80,7 +82,7 @@ def uploaded_file():
                     else:
                         for skip in res:
                             text = text + str(skip) + ","
-                    res = text[:-1]
+                    res = text[:-1] +" and"+" Get your file from here: "+S3_BASE_URL
             except Exception as e:
                 return jsonify({'error': str(e)})
                 print(e)
