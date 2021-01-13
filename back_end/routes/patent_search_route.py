@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, jsonify, Blueprint
 from werkzeug.utils import secure_filename
 from back_end.helpers.patent_details import PatentExtract
-# from back_end.helpers.patent_pdf_details_merge_app import ExtractPatentId
 from back_end.helpers.extract_patent_id import ExtractPatentId
 from back_end.helpers.pdf_merge import PdfMerge
 import os, asyncio,glob
@@ -78,10 +77,6 @@ def process():
 
             return jsonify({'name': res})
 
-            # patent_download_class = ExtractPatentId()
-            # patent_download_class.download_pdf(file_name=filename)
-            # newName = text
-            # return jsonify({'name': 'author ' + newName + ' details has been downlaoded'})
         except Exception as e:
             print(e)
             return jsonify({'error': 'System Error ! , please try again'})
