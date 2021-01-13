@@ -7,7 +7,7 @@ from back_end.app import get_base_path
 def merge(file_name):
     amazon_S3 = AmazolnS3("patents-jerry")
     file_name = str(file_name)[:-4]
-    path = "{}\\temp_data\\pdf\\" + file_name
+    path = "{}/temp_data/pdf/" + file_name
     dir = path.format(get_base_path())
     pdfs = [a for a in os.listdir(dir) if a.endswith(".pdf")]
 

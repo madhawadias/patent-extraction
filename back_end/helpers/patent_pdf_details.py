@@ -38,7 +38,7 @@ class PatentDownload:
     def patent_pdf(self, patent_id, file_name):
         # options = webdriver.ChromeOptions()
         options = self.options
-        path = "{}\\back_end\\temp_data\\pdf\\{}".format(get_base_path(), file_name[0:-4])
+        path = "{}/temp_data/pdf/{}".format(get_base_path(), file_name[0:-4])
         # prefs = {'download.default_directory': path}
         # options.add_experimental_option('prefs', prefs)
         print(patent_id)
