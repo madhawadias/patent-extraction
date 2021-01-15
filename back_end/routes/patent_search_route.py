@@ -1,14 +1,18 @@
+import asyncio
+import glob
+import os
+
 from flask import Flask, render_template, request, jsonify, Blueprint
-from werkzeug.utils import secure_filename
-from back_end.helpers.patent_details import PatentExtract
+
 from back_end.helpers.extract_patent_id import ExtractPatentId
+from back_end.helpers.patent_details import PatentExtract
 from back_end.helpers.pdf_merge import PdfMerge
-import os, asyncio,glob
+from back_end.helpers.send_mail import SendMail
 
 app = Flask(__name__)
 
 patent_search_endpoint = Blueprint("patent_search_service", __name__)
-patent_search_process_endpoint = Blueprint("patent_search_process_service",__name__)
+patent_search_process_endpoint = Blueprint("patent_search_process_service", __name__)
 endpoint = "/patent_search_service"
 process_endpoint = "/process"
 
@@ -16,6 +20,7 @@ UPLOAD_FOLDER = 'back_end/temp_data'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 DOWNLOAD_FOLDER = 'back_end/temp_data/pdf'
 app.config['DOWNLOAD_FOLDER'] = DOWNLOAD_FOLDER
+
 
 @patent_search_endpoint.route(endpoint, methods=['GET', 'POST'])
 def get_patent_search():
@@ -35,6 +40,7 @@ def process():
         try:
             extract_patentId = ExtractPatentId
             merger = PdfMerge
+            send_mail = SendMail
 
             if not os.path.isdir(UPLOAD_FOLDER):
                 os.mkdir(UPLOAD_FOLDER)
@@ -65,7 +71,7 @@ def process():
                     else:
                         for skip in res:
                             skip_text = skip_text + str(skip) + ","
-                    res = skip_text[:-1]+" and"+" Get your file from here: "+S3_BASE_URL
+                    res = skip_text[:-1] + " and" + " Get your file from here: " + S3_BASE_URL
             except Exception as e:
                 return jsonify({'error': str(e)})
                 print(e)
@@ -75,13 +81,13 @@ def process():
             except Exception as e:
                 print(e)
 
+            send_mail.runner(file_url=S3_BASE_URL, file_name=text[:-4])
+
             return jsonify({'name': res})
 
         except Exception as e:
             print(e)
             return jsonify({'error': 'System Error ! , please try again'})
-
-
 
     return jsonify({'error': 'Missing data!'})
 
