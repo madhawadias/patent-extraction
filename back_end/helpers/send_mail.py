@@ -26,5 +26,3 @@ class SendMail:
         print("Email Sent")
         s.quit()
 
-
-SendMail().runner(file_name="rotaru", file_url="test url")
