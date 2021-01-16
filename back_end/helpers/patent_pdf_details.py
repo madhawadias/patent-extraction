@@ -6,6 +6,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.common.exceptions import NoSuchElementException
 
 from back_end.app import get_base_path
 
@@ -87,6 +88,12 @@ class PatentDownload:
                 )
                 time.sleep(3)
                 image_file_wrapper.click()
+
+            except NoSuchElementException as e:
+                print(e)
+                print("image file wrapper doesn't exist for the id")
+                driver.quit()
+
             except Exception as e:
                 print(e)
                 print("redo")
