@@ -2,11 +2,11 @@
 import time
 
 from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.common.exceptions import NoSuchElementException
 
 from back_end.app import get_base_path
 
@@ -84,174 +84,172 @@ class PatentDownload:
 
             try:
                 driver.find_element_by_id("imageFileWrapperId")
+
+                try:
+                    image_file_wrapper = WebDriverWait(driver, 40).until(
+                        EC.presence_of_element_located((By.ID, "imageFileWrapperId"))
+                    )
+                    time.sleep(3)
+                    image_file_wrapper.click()
+
+                except Exception as e:
+                    print(e)
+                    print("redo")
+                    driver.quit()
+                    patent_download_class = PatentDownload()
+                    patent_download_class.patent_pdf(patent_id=patent_id, file_name=file_name)
+
+                try:
+                    adminCheckBox = WebDriverWait(driver, 10).until(
+                        EC.presence_of_element_located((By.XPATH,
+                                                        "//td[normalize-space(text())='A.NE']/following-sibling::td/following-sibling::td/following-sibling::td/following-sibling::td/descendant::input"))
+                    )
+                    time.sleep(2)
+                    print("A.NE exisit for application number : " + patent_id)
+                    A_exist = 1
+                except Exception as e:
+                    print(e)
+                    print("A.NE Does not exisit for application number : " + patent_id)
+                    A_exist = 0
+                    # patent_download_class = PatentDownload()
+                    # patent_download_class.patent_pdf(patent_id=patent_id,file_name=file_name)
+
+                if A_exist == 1:
+                    try:
+                        driver.execute_script("arguments[0].click();", adminCheckBox)
+                    except Exception as e:
+                        print(e)
+                        pass
+
+                try:
+                    adminCheckBox = WebDriverWait(driver, 10).until(
+                        EC.presence_of_element_located((By.XPATH,
+                                                        "//td[normalize-space(text())='AMSB']/following-sibling::td/following-sibling::td/following-sibling::td/following-sibling::td/descendant::input"))
+                    )
+                    time.sleep(2)
+                    print("AMSB exisit for application number : " + patent_id)
+                    AMSB_exist = 1
+                except Exception as e:
+                    print(e)
+                    print("AMSB Does not exisit for application number : " + patent_id)
+                    AMSB_exist = 0
+                    # patent_download_class = PatentDownload()
+                    # patent_download_class.patent_pdf(patent_id=patent_id,file_name=file_name)
+
+                if AMSB_exist == 1:
+                    try:
+                        driver.execute_script("arguments[0].click();", adminCheckBox)
+                    except Exception as e:
+                        print(e)
+                        pass
+
+                try:
+                    adminCheckBox = WebDriverWait(driver, 10).until(
+                        EC.presence_of_element_located((By.XPATH,
+                                                        "//td[normalize-space(text())='CLM']/following-sibling::td/following-sibling::td/following-sibling::td/following-sibling::td/descendant::input"))
+                    )
+                    time.sleep(2)
+                    print("CLM exisit for application number : " + patent_id)
+                    CLM_exist = 1
+                except Exception as e:
+                    print(e)
+                    print("CLM Does not exisit for application number : " + patent_id)
+                    CLM_exist = 0
+                    # patent_download_class = PatentDownload()
+                    # patent_download_class.patent_pdf(patent_id=patent_id,file_name=file_name)
+
+                if CLM_exist == 1:
+                    try:
+                        driver.execute_script("arguments[0].click();", adminCheckBox)
+                    except Exception as e:
+                        print(e)
+                        pass
+
+                try:
+                    adminCheckBox = WebDriverWait(driver, 10).until(
+                        EC.presence_of_element_located((By.XPATH,
+                                                        "//td[normalize-space(text())='REM']/following-sibling::td/following-sibling::td/following-sibling::td/following-sibling::td/descendant::input"))
+                    )
+                    time.sleep(3)
+                    print("REM exisit for application number : " + patent_id)
+                    REM_exist = 1
+                except Exception as e:
+                    print(e)
+                    print("REM Does not exisit for application number : " + patent_id)
+                    REM_exist = 0
+                    # patent_download_class = PatentDownload()
+                    # patent_download_class.patent_pdf(patent_id=patent_id,file_name=file_name)
+                if REM_exist == 1:
+                    try:
+                        driver.execute_script("arguments[0].click();", adminCheckBox)
+                    except Exception as e:
+                        print(e)
+                        pass
+
+                time.sleep(2)
+
+                # try:
+                #     select_all_rows = WebDriverWait(driver, 40).until(
+                #         EC.presence_of_element_located((By.ID, "selectallrows"))
+                #     )
+                # except:
+                #     print("redo")
+                #     patent_pdf()
+                #
+                # select_all_rows.click()
+                # print("selecting all PDFs")
+
+                try:
+                    download_all_pdf = WebDriverWait(driver, 40).until(
+                        EC.presence_of_element_located((By.XPATH, '//*[@id="buttonsID"]/a'))
+                    )
+                    time.sleep(3)
+                    download_all_pdf.click()
+
+
+                except Exception as e:
+                    print(e)
+                    print("redo")
+                    driver.quit()
+                    patent_download_class = PatentDownload()
+                    patent_download_class.patent_pdf(patent_id=patent_id, file_name=file_name)
+
+                try:
+                    # startDownload = time.time()
+                    print("Downloading PDF")
+                    driver.get("chrome://downloads/")
+                    time.sleep(10)
+                    # endDownload = time.time()
+                    print("completed downloading pdfs for application number : " + patent_id)
+
+
+
+                except Exception as e:
+                    print(e)
+                    print("redo")
+                    driver.quit()
+                    patent_download_class = PatentDownload()
+                    patent_download_class.patent_pdf(patent_id=patent_id, file_name=file_name)
+
+                # try:
+                #     startDownload = time.time()
+                #     print("Downloading PDF")
+                #     paths = WebDriverWait(driver, 7500).until(DownloadWait.every_downloads_chrome)
+                #     endDownload = time.time()
+                #     print(paths)
+                #     print("completed downloading pdfs for application number : " + patent_id)
+                #     time.sleep(3)
+                # except Exception as e:
+                #     print(e)
+                #     driver.quit()
+                #     patent_download_class = PatentDownload()
+                #     patent_download_class.patent_pdf(patent_id=patent_id,file_name=file_name)
+
             except NoSuchElementException as e:
                 print(e)
                 print("image file wrapper doesn't exist for the id")
                 driver.quit()
                 return 0
-
-            try:
-                image_file_wrapper = WebDriverWait(driver, 40).until(
-                    EC.presence_of_element_located((By.ID, "imageFileWrapperId"))
-                )
-                time.sleep(3)
-                image_file_wrapper.click()
-
-            except Exception as e:
-                print(e)
-                print("redo")
-                driver.quit()
-                patent_download_class = PatentDownload()
-                patent_download_class.patent_pdf(patent_id=patent_id, file_name=file_name)
-
-            try:
-                adminCheckBox = WebDriverWait(driver, 10).until(
-                    EC.presence_of_element_located((By.XPATH,
-                                                    "//td[normalize-space(text())='A.NE']/following-sibling::td/following-sibling::td/following-sibling::td/following-sibling::td/descendant::input"))
-                )
-                time.sleep(2)
-                print("A.NE exisit for application number : " + patent_id)
-                A_exist = 1
-            except Exception as e:
-                print(e)
-                print("A.NE Does not exisit for application number : " + patent_id)
-                A_exist = 0
-                # patent_download_class = PatentDownload()
-                # patent_download_class.patent_pdf(patent_id=patent_id,file_name=file_name)
-
-            if A_exist == 1:
-                try:
-                    driver.execute_script("arguments[0].click();", adminCheckBox)
-                except Exception as e:
-                    print(e)
-                    pass
-
-            try:
-                adminCheckBox = WebDriverWait(driver, 10).until(
-                    EC.presence_of_element_located((By.XPATH,
-                                                    "//td[normalize-space(text())='AMSB']/following-sibling::td/following-sibling::td/following-sibling::td/following-sibling::td/descendant::input"))
-                )
-                time.sleep(2)
-                print("AMSB exisit for application number : " + patent_id)
-                AMSB_exist = 1
-            except Exception as e:
-                print(e)
-                print("AMSB Does not exisit for application number : " + patent_id)
-                AMSB_exist = 0
-                # patent_download_class = PatentDownload()
-                # patent_download_class.patent_pdf(patent_id=patent_id,file_name=file_name)
-
-            if AMSB_exist == 1:
-                try:
-                    driver.execute_script("arguments[0].click();", adminCheckBox)
-                except Exception as e:
-                    print(e)
-                    pass
-
-            try:
-                adminCheckBox = WebDriverWait(driver, 10).until(
-                    EC.presence_of_element_located((By.XPATH,
-                                                    "//td[normalize-space(text())='CLM']/following-sibling::td/following-sibling::td/following-sibling::td/following-sibling::td/descendant::input"))
-                )
-                time.sleep(2)
-                print("CLM exisit for application number : " + patent_id)
-                CLM_exist = 1
-            except Exception as e:
-                print(e)
-                print("CLM Does not exisit for application number : " + patent_id)
-                CLM_exist = 0
-                # patent_download_class = PatentDownload()
-                # patent_download_class.patent_pdf(patent_id=patent_id,file_name=file_name)
-
-            if CLM_exist == 1:
-                try:
-                    driver.execute_script("arguments[0].click();", adminCheckBox)
-                except Exception as e:
-                    print(e)
-                    pass
-
-            try:
-                adminCheckBox = WebDriverWait(driver, 10).until(
-                    EC.presence_of_element_located((By.XPATH,
-                                                    "//td[normalize-space(text())='REM']/following-sibling::td/following-sibling::td/following-sibling::td/following-sibling::td/descendant::input"))
-                )
-                time.sleep(3)
-                print("REM exisit for application number : " + patent_id)
-                REM_exist = 1
-            except Exception as e:
-                print(e)
-                print("REM Does not exisit for application number : " + patent_id)
-                REM_exist = 0
-                # patent_download_class = PatentDownload()
-                # patent_download_class.patent_pdf(patent_id=patent_id,file_name=file_name)
-            if REM_exist == 1:
-                try:
-                    driver.execute_script("arguments[0].click();", adminCheckBox)
-                except Exception as e:
-                    print(e)
-                    pass
-
-            time.sleep(2)
-
-            # try:
-            #     select_all_rows = WebDriverWait(driver, 40).until(
-            #         EC.presence_of_element_located((By.ID, "selectallrows"))
-            #     )
-            # except:
-            #     print("redo")
-            #     patent_pdf()
-            #
-            # select_all_rows.click()
-            # print("selecting all PDFs")
-
-            try:
-                download_all_pdf = WebDriverWait(driver, 40).until(
-                    EC.presence_of_element_located((By.XPATH, '//*[@id="buttonsID"]/a'))
-                )
-                time.sleep(3)
-                download_all_pdf.click()
-
-
-            except Exception as e:
-                print(e)
-                print("redo")
-                driver.quit()
-                patent_download_class = PatentDownload()
-                patent_download_class.patent_pdf(patent_id=patent_id, file_name=file_name)
-
-            try:
-                # startDownload = time.time()
-                print("Downloading PDF")
-                driver.get("chrome://downloads/")
-                time.sleep(10)
-                # endDownload = time.time()
-                print("completed downloading pdfs for application number : " + patent_id)
-
-
-
-            except Exception as e:
-                print(e)
-                print("redo")
-                driver.quit()
-                patent_download_class = PatentDownload()
-                patent_download_class.patent_pdf(patent_id=patent_id, file_name=file_name)
-
-            # try:
-            #     startDownload = time.time()
-            #     print("Downloading PDF")
-            #     paths = WebDriverWait(driver, 7500).until(DownloadWait.every_downloads_chrome)
-            #     endDownload = time.time()
-            #     print(paths)
-            #     print("completed downloading pdfs for application number : " + patent_id)
-            #     time.sleep(3)
-            # except Exception as e:
-            #     print(e)
-            #     driver.quit()
-            #     patent_download_class = PatentDownload()
-            #     patent_download_class.patent_pdf(patent_id=patent_id,file_name=file_name)
-            #
-
-
 
         finally:
             driver.quit()
