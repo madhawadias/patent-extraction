@@ -44,8 +44,8 @@ class PatentDownload:
         print(patent_id)
 
         print(self.chrome_driver_path)
-        driver = webdriver.Chrome("/usr/lib/chromium-browser/chromedriver", chrome_options=options)
-        # driver = webdriver.Chrome(self.chrome_driver_path, chrome_options=options)
+        # driver = webdriver.Chrome("/usr/lib/chromium-browser/chromedriver", chrome_options=options)
+        driver = webdriver.Chrome(self.chrome_driver_path, chrome_options=options)
         params = {'behavior': 'allow', 'downloadPath': path}
         driver.execute_cdp_cmd('Page.setDownloadBehavior', params)
         # driver = webdriver.Chrome(self.chrome_driver_path, chrome_options=self.options)
