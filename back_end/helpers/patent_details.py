@@ -42,6 +42,7 @@ class PatentExtract:
         # with open(filename+".csv", 'w', newline='') as file:
         #     writer = csv.writer(file)
         #     writer.writerow(["patent-title", "patent-number", "patent-issue-date"])
+        print(self.chrome_driver_path)
         # driver = webdriver.Chrome("/usr/lib/chromium-browser/chromedriver", chrome_options=self.options)
         driver = webdriver.Chrome(self.chrome_driver_path, chrome_options=self.options)
         driver.get("https://www.freepatentsonline.com/search.html")
@@ -80,6 +81,7 @@ class PatentExtract:
         # options.add_argument("--disable-notifications")
 
         # setting up the chrome driver
+        print(self.chrome_driver_path)
         # driver = webdriver.Chrome("/usr/lib/chromium-browser/chromedriver", chrome_options=self.options)
         driver = webdriver.Chrome(self.chrome_driver_path, chrome_options=self.options)
         #
