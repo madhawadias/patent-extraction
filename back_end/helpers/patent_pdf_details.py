@@ -88,6 +88,7 @@ class PatentDownload:
                 print(e)
                 print("image file wrapper doesn't exist for the id")
                 driver.quit()
+                return 0
 
             try:
                 image_file_wrapper = WebDriverWait(driver, 40).until(
