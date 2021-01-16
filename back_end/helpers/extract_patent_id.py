@@ -4,13 +4,15 @@ from back_end.helpers.patent_pdf_details import PatentDownload
 
 
 class ExtractPatentId:
+    def __init__(self):
+        self.regex = r"\b\d\d[/]\d\d\d\d\d\d"
 
-    async def runner(file_name):
+    async def runner(self, file_name):
         path = 'back_end/temp_data/' + str(file_name)
         df = pd.read_csv(path, encoding="utf-8")
-        regex = r"\b\d\d[/]\d\d\d\d\d\d"
+        regex = self.regex
         global patentIdCol
-        skiped=[]
+        skiped = []
         patentIdCol = None
         patent_download_class = PatentDownload()
 
@@ -28,7 +30,7 @@ class ExtractPatentId:
                 patentIds = df[patentIdCol]
                 for patentId in patentIds:
                     if re.match(regex, patentId):
-                        await patent_download_class.runner(patent_id=patentId,file_name=file_name)
+                        await patent_download_class.runner(patent_id=patentId, file_name=file_name)
                     else:
                         skiped.append(patentId)
 
@@ -36,7 +38,7 @@ class ExtractPatentId:
                     return skiped
                 else:
                     S3_BASE_URL = "https://patents-jerry.s3.us-east-2.amazonaws.com/{}.pdf".format(file_name[:-4])
-                    return "Download Completed!!"+" Get your file from here: "+S3_BASE_URL
+                    return "Download Completed!!" + " Get your file from here: " + S3_BASE_URL
             else:
                 return "Please enter a valid CSV file"
 

@@ -132,7 +132,6 @@ class PatentExtract:
                 writer.writerow(patent_result)
         filenamecsv = filename + ".csv"
 
-        patent_resutls_string = str(patent_results)
         return filenamecsv
 
         driver.quit()
