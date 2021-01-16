@@ -5,7 +5,7 @@ from back_end.helpers.patent_pdf_details import PatentDownload
 
 class ExtractPatentId:
 
-    async def runner(file_name):
+    async def runner(self, file_name):
         path = 'back_end/temp_data/' + str(file_name)
         df = pd.read_csv(path, encoding="utf-8")
         regex = r"\b\d\d[/]\d\d\d\d\d\d"
