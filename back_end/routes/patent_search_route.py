@@ -38,9 +38,9 @@ def process():
     if text:
 
         try:
-            extract_patentId = ExtractPatentId
-            merger = PdfMerge
-            send_mail = SendMail
+            extract_patentId = ExtractPatentId()
+            merger = PdfMerge()
+            send_mail = SendMail()
 
             if not os.path.isdir(UPLOAD_FOLDER):
                 os.mkdir(UPLOAD_FOLDER)
