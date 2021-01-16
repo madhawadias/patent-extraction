@@ -83,16 +83,18 @@ class PatentDownload:
             print("searching for PDFs to the relevant application number")
 
             try:
+                driver.find_element_by_id("imageFileWrapperId")
+            except NoSuchElementException as e:
+                print(e)
+                print("image file wrapper doesn't exist for the id")
+                driver.quit()
+
+            try:
                 image_file_wrapper = WebDriverWait(driver, 40).until(
                     EC.presence_of_element_located((By.ID, "imageFileWrapperId"))
                 )
                 time.sleep(3)
                 image_file_wrapper.click()
-
-            except NoSuchElementException as e:
-                print(e)
-                print("image file wrapper doesn't exist for the id")
-                driver.quit()
 
             except Exception as e:
                 print(e)
