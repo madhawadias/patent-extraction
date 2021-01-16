@@ -76,12 +76,15 @@ def process():
                 return jsonify({'error': str(e)})
                 print(e)
 
-            try:
-                asyncio.run(merger.runner(file_name=filename))
-            except Exception as e:
-                print(e)
+            if os.listdir(download):
+                try:
+                    asyncio.run(merger.runner(file_name=filename))
+                except Exception as e:
+                    print(e)
 
-            send_mail.runner(file_url=S3_BASE_URL, file_name=text[:-4])
+                send_mail.runner(file_url=S3_BASE_URL, file_name=text[:-4])
+            else:
+                res = "No files available for your search"
 
             return jsonify({'name': res})
 

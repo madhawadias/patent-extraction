@@ -14,18 +14,19 @@ def merge(file_name):
     print(pdfs)
     merger = PdfFileMerger()
 
-    for pdf in pdfs:
-        print(pdf)
-        merger.append(PdfFileReader(str(dir) + "/" + str(pdf), 'rb'))
+    if pdfs:
+        for pdf in pdfs:
+            print(pdf)
+            merger.append(PdfFileReader(str(dir) + "/" + str(pdf), 'rb'))
 
-    merger.write(str(dir) + "/" + "result.pdf")
-    merger.close()
+        merger.write(str(dir) + "/" + "result.pdf")
+        merger.close()
 
-    if os.path.isfile("{}/temp_data/pdf/{}/result.pdf".format(get_base_path(), file_name)):
-        print("file is available")
-        with open("{}/temp_data/pdf/{}/result.pdf".format(get_base_path(), file_name), 'rb') as datafile:
-            print("file opened")
-            _result = amazon_S3.upload_pdf(datafile, "{}.pdf".format(file_name))
+        if os.path.isfile("{}/temp_data/pdf/{}/result.pdf".format(get_base_path(), file_name)):
+            print("file is available")
+            with open("{}/temp_data/pdf/{}/result.pdf".format(get_base_path(), file_name), 'rb') as datafile:
+                print("file opened")
+                _result = amazon_S3.upload_pdf(datafile, "{}.pdf".format(file_name))
 
 
 class PdfMerge:
