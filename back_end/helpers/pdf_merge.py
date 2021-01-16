@@ -29,5 +29,5 @@ def merge(file_name):
 
 
 class PdfMerge:
-    async def runner(file_name):
+    async def runner(self, file_name):
         await merge(file_name=file_name)
