@@ -48,6 +48,9 @@ class PatentDownload:
         # driver = webdriver.Chrome("/usr/lib/chromium-browser/chromedriver", chrome_options=options)
         driver = webdriver.Chrome(self.chrome_driver_path, chrome_options=options)
         # driver = webdriver.Chrome(self.chrome_driver_path, chrome_options=self.options)
+        path = path + "/2"
+        params = {'behavior': 'allow', 'downloadPath': path}
+        driver.execute_cdp_cmd('Page.setDownloadBehavior', params)
         driver.get("https://portal.uspto.gov/pair/PublicPair")
         start = time.time()
 
@@ -149,6 +152,12 @@ class PatentDownload:
                         patent_download_class = PatentDownload()
                         patent_download_class.patent_pdf(patent_id=patent_id, file_name=file_name)
 
+                    try:
+                        driver.execute_script("arguments[0].click();", adminCheckBox)
+                    except Exception as e:
+                        print(e)
+                        pass
+
                 try:
                     adminCheckBox = WebDriverWait(driver, 10).until(
                         EC.presence_of_element_located((By.XPATH,
@@ -227,36 +236,38 @@ class PatentDownload:
                 # select_all_rows.click()
                 # print("selecting all PDFs")
 
-                try:
-                    download_all_pdf = WebDriverWait(driver, 40).until(
-                        EC.presence_of_element_located((By.XPATH, '//*[@id="buttonsID"]/a'))
-                    )
-                    time.sleep(3)
-                    download_all_pdf.click()
-                except Exception as e:
-                    print(e)
-                    print("redo")
-                    driver.quit()
-                    patent_download_class = PatentDownload()
-                    patent_download_class.patent_pdf(patent_id=patent_id, file_name=file_name)
+                if((REM_exist+CLM_exist+AMSB_exist)!=0):
+                    try:
+                        download_all_pdf = WebDriverWait(driver, 40).until(
+                            EC.presence_of_element_located((By.XPATH, '//*[@id="buttonsID"]/a'))
+                        )
+                        time.sleep(3)
+                        download_all_pdf.click()
+                    except Exception as e:
+                        print(e)
+                        print("redo")
+                        driver.quit()
+                        patent_download_class = PatentDownload()
+                        patent_download_class.patent_pdf(patent_id=patent_id, file_name=file_name)
 
-                try:
-                    # startDownload = time.time()
-                    print("Downloading PDF")
-                    path=path+"/2"
-                    params = {'behavior': 'allow', 'downloadPath': path}
-                    driver.execute_cdp_cmd('Page.setDownloadBehavior', params)
-                    driver.get("chrome://downloads/")
-                    time.sleep(10)
-                    # endDownload = time.time()
-                    print("completed downloading pdfs for application number : " + patent_id)
-                except Exception as e:
-                    print(e)
-                    print("redo")
-                    driver.quit()
-                    patent_download_class = PatentDownload()
-                    patent_download_class.patent_pdf(patent_id=patent_id, file_name=file_name)
-
+                    try:
+                        # startDownload = time.time()
+                        print("Downloading PDF")
+                        path=path+"/2"
+                        params = {'behavior': 'allow', 'downloadPath': path}
+                        driver.execute_cdp_cmd('Page.setDownloadBehavior', params)
+                        driver.get("chrome://downloads/")
+                        time.sleep(10)
+                        # endDownload = time.time()
+                        print("completed downloading pdfs for application number : " + patent_id)
+                    except Exception as e:
+                        print(e)
+                        print("redo")
+                        driver.quit()
+                        patent_download_class = PatentDownload()
+                        patent_download_class.patent_pdf(patent_id=patent_id, file_name=file_name)
+                else:
+                    print("No pdfs to download")
                 # try:
                 #     startDownload = time.time()
                 #     print("Downloading PDF")
