@@ -47,8 +47,6 @@ class PatentDownload:
         print(self.chrome_driver_path)
         # driver = webdriver.Chrome("/usr/lib/chromium-browser/chromedriver", chrome_options=options)
         driver = webdriver.Chrome(self.chrome_driver_path, chrome_options=options)
-        params = {'behavior': 'allow', 'downloadPath': path}
-        driver.execute_cdp_cmd('Page.setDownloadBehavior', params)
         # driver = webdriver.Chrome(self.chrome_driver_path, chrome_options=self.options)
         driver.get("https://portal.uspto.gov/pair/PublicPair")
         start = time.time()
@@ -120,6 +118,34 @@ class PatentDownload:
                     except Exception as e:
                         print(e)
                         pass
+
+                    try:
+                        download_all_pdf = WebDriverWait(driver, 40).until(
+                            EC.presence_of_element_located((By.XPATH, '//*[@id="buttonsID"]/a'))
+                        )
+                        time.sleep(3)
+                        download_all_pdf.click()
+                    except Exception as e:
+                        print(e)
+                        print("redo")
+                        driver.quit()
+                        patent_download_class = PatentDownload()
+                        patent_download_class.patent_pdf(patent_id=patent_id, file_name=file_name)
+
+                    try:
+                        print("Downloading A.. PDF")
+                        path = path + "/1"
+                        params = {'behavior': 'allow', 'downloadPath': path}
+                        driver.execute_cdp_cmd('Page.setDownloadBehavior', params)
+                        driver.get("chrome://downloads/")
+                        time.sleep(10)
+                        print("completed downloading pdf A.. for application number : " + patent_id)
+                    except Exception as e:
+                        print(e)
+                        print("redo")
+                        driver.quit()
+                        patent_download_class = PatentDownload()
+                        patent_download_class.patent_pdf(patent_id=patent_id, file_name=file_name)
 
                 try:
                     adminCheckBox = WebDriverWait(driver, 10).until(
@@ -205,8 +231,6 @@ class PatentDownload:
                     )
                     time.sleep(3)
                     download_all_pdf.click()
-
-
                 except Exception as e:
                     print(e)
                     print("redo")
@@ -217,13 +241,13 @@ class PatentDownload:
                 try:
                     # startDownload = time.time()
                     print("Downloading PDF")
+                    path=path+"/2"
+                    params = {'behavior': 'allow', 'downloadPath': path}
+                    driver.execute_cdp_cmd('Page.setDownloadBehavior', params)
                     driver.get("chrome://downloads/")
                     time.sleep(10)
                     # endDownload = time.time()
                     print("completed downloading pdfs for application number : " + patent_id)
-
-
-
                 except Exception as e:
                     print(e)
                     print("redo")

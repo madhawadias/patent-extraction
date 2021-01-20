@@ -51,12 +51,30 @@ def process():
             filename = patent_extract_class.extract_patent_details(text=text)
             print(filename)
 
-            download = str(DOWNLOAD_FOLDER) + "/" + str(filename)[0:-4]
-            if not os.path.isdir(download):
-                os.mkdir(download)
+            final_download = str(DOWNLOAD_FOLDER) + "/" + str(filename)[0:-4]+"/result"
+            if not os.path.isdir(final_download):
+                os.mkdir(final_download)
 
-            if os.listdir(download) != []:
-                files = glob.glob(download + '/*')
+            if os.listdir(final_download) != []:
+                files = glob.glob(final_download + '/*')
+                for f in files:
+                    os.remove(f)
+
+            a_download = str(DOWNLOAD_FOLDER) + "/" + str(filename)[0:-4] + "/1"
+            if not os.path.isdir(a_download):
+                os.mkdir(a_download)
+
+            if os.listdir(a_download) != []:
+                files = glob.glob(a_download + '/*')
+                for f in files:
+                    os.remove(f)
+
+            b_download = str(DOWNLOAD_FOLDER) + "/" + str(filename)[0:-4] + "/2"
+            if not os.path.isdir(b_download):
+                os.mkdir(b_download)
+
+            if os.listdir(b_download) != []:
+                files = glob.glob(b_download + '/*')
                 for f in files:
                     os.remove(f)
 
@@ -76,9 +94,22 @@ def process():
                 return jsonify({'error': str(e)})
                 print(e)
 
-            if os.listdir(download):
+
+            if os.listdir(a_download):
                 try:
-                    asyncio.run(merger.runner(file_name=filename))
+                    asyncio.run(merger.runner(file_name=filename,folder_name="1"))
+                except Exception as e:
+                    print(e)
+
+            if os.listdir(b_download):
+                try:
+                    asyncio.run(merger.runner(file_name=filename,folder_name="2"))
+                except Exception as e:
+                    print(e)
+
+            if os.listdir(final_download):
+                try:
+                    asyncio.run(merger.runner(file_name=filename,folder_name="result"))
                 except Exception as e:
                     print(e)
 
