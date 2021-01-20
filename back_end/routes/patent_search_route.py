@@ -95,8 +95,9 @@ def process():
                             skip_text = skip_text + str(skip) + ","
                     res = skip_text[:-1] + " and" + " Get your file from here: " + S3_BASE_URL
             except Exception as e:
-                return jsonify({'error': str(e)})
                 print(e)
+                return jsonify({'error': str(e)})
+
 
 
             if os.listdir(a_download):
