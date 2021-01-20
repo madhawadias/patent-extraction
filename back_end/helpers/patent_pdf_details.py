@@ -52,6 +52,8 @@ class PatentDownload:
         start = time.time()
 
         try:
+            search=''
+            submit=''
             try:
                 search = WebDriverWait(driver, 40).until(
                     EC.presence_of_element_located((By.ID, "number_id"))
@@ -82,7 +84,7 @@ class PatentDownload:
 
             try:
                 driver.find_element_by_id("imageFileWrapperId")
-
+                adminCheckBox=''
                 try:
                     image_file_wrapper = WebDriverWait(driver, 40).until(
                         EC.presence_of_element_located((By.ID, "imageFileWrapperId"))
