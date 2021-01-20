@@ -12,7 +12,7 @@ def merge(file_name, folder_name):
     write_path = "{}/temp_data/pdf/" + file_name + "/result"
     write_dir = write_path.format(get_base_path())
     pdfs = [a for a in os.listdir(read_dir) if a.endswith(".pdf")]
-
+    pdfs.sort()
     print(pdfs)
     merger = PdfFileMerger()
 

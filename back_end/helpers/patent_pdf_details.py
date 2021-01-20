@@ -142,6 +142,8 @@ class PatentDownload:
                         driver.get("chrome://downloads/")
                         time.sleep(10)
                         print("completed downloading pdf A.. for application number : " + patent_id)
+                        driver.back()
+                        time.sleep(10)
                     except Exception as e:
                         print(e)
                         print("redo")
@@ -149,11 +151,6 @@ class PatentDownload:
                         patent_download_class = PatentDownload()
                         patent_download_class.patent_pdf(patent_id=patent_id, file_name=file_name)
 
-                    try:
-                        driver.execute_script("arguments[0].click();", adminCheckBox)
-                    except Exception as e:
-                        print(e)
-                        pass
 
                 try:
                     adminCheckBox = WebDriverWait(driver, 10).until(
