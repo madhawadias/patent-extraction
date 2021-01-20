@@ -51,6 +51,10 @@ def process():
             filename = patent_extract_class.extract_patent_details(text=text)
             print(filename)
 
+            download = str(DOWNLOAD_FOLDER) + "/" + str(filename)[0:-4]
+            if not os.path.isdir(download):
+                os.mkdir(download)
+
             final_download = str(DOWNLOAD_FOLDER) + "/" + str(filename)[0:-4]+"/result"
             if not os.path.isdir(final_download):
                 os.mkdir(final_download)
