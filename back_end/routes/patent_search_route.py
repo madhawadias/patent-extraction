@@ -117,7 +117,7 @@ def process():
                 except Exception as e:
                     print(e)
 
-                send_mail.runner(file_url=S3_BASE_URL, file_name=text[:-4])
+                send_mail.runner(file_url=S3_BASE_URL, file_name=text)
             else:
                 res = "No files available for your search"
 
