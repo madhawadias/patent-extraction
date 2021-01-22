@@ -26,7 +26,7 @@ if __name__ == "__main__":
     app.secret_key = os.urandom(24)
     print("Running")
     gc.enable()
-    app.run(host="0.0.0.0", port=4001)
+    app.run(host="0.0.0.0", port=5001)
 
 
 # from back_end.helpers.patent_details import PatentExtract
