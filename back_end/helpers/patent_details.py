@@ -50,7 +50,9 @@ class PatentExtract:
         # search the author
         search = driver.find_element_by_id("query_txt")
         # search.send_keys('PEX/"ROTARU, OCTAVIAN"')
-        search.send_keys(text)
+        s_text = 'PEX/"' + text + '"'
+        print("start searching for {}".format(s_text))
+        search.send_keys(s_text)
         submit_btn = driver.find_element_by_name("search")
         submit_btn.click()
 
@@ -124,7 +126,7 @@ class PatentExtract:
         date_str = "_" + str(current_date.hour) + str(current_date.minute) + str(current_date.second) + "_" + str(
             current_date.day) + str(current_date.month) + str(current_date.year)
         filename = text + date_str
-        filename=filename.upper().replace(" ", "_")
+        filename = filename.upper().replace(" ", "_")
         filepath = str(self.csv_location + filename)
         print(filepath)
         with open(filepath + ".csv", 'w', newline='', encoding="utf-8") as file:
