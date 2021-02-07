@@ -46,6 +46,9 @@ def process():
                 os.mkdir(UPLOAD_FOLDER)
                 os.mkdir(DOWNLOAD_FOLDER)
 
+            if not os.path.isdir(DOWNLOAD_FOLDER):
+                os.mkdir(DOWNLOAD_FOLDER)
+
             patent_extract_class = PatentExtract()
             patent_extract_class.search_by_examiner(text=text)
             filename = patent_extract_class.extract_patent_details(text=text)
