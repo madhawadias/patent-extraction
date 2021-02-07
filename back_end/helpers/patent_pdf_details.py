@@ -126,8 +126,8 @@ class PatentDownload:
                             EC.presence_of_element_located((By.XPATH, '//*[@id="buttonsID"]/a'))
                         )
                         time.sleep(3)
-                        path = path + "/1"
-                        params = {'behavior': 'allow', 'downloadPath': path}
+                        path_a = path + "/1"
+                        params = {'behavior': 'allow', 'downloadPath': path_a}
                         driver.execute_cdp_cmd('Page.setDownloadBehavior', params)
                         download_all_pdf.click()
                     except Exception as e:
@@ -236,8 +236,8 @@ class PatentDownload:
                             EC.presence_of_element_located((By.XPATH, '//*[@id="buttonsID"]/a'))
                         )
                         time.sleep(3)
-                        path=path+"/2"
-                        params = {'behavior': 'allow', 'downloadPath': path}
+                        path_b = path+"/2"
+                        params = {'behavior': 'allow', 'downloadPath': path_b}
                         driver.execute_cdp_cmd('Page.setDownloadBehavior', params)
                         download_all_pdf.click()
                     except Exception as e:
