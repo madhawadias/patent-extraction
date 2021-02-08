@@ -31,7 +31,7 @@ def merge(file_name, folder_name):
                 print("file is available")
                 with open("{}/temp_data/pdf/{}/result.pdf".format(get_base_path(), file_name), 'rb') as datafile:
                     print("file opened")
-                    _result = amazon_S3.upload_pdf(datafile, "{}.pdf".format(file_name))
+                    _result = amazon_S3.upload_pdf(file=datafile, file_name="{}.pdf".format(file_name))
 
 
 class PdfMerge:
