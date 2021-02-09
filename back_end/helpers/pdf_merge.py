@@ -29,9 +29,15 @@ def merge(file_name, folder_name):
             print("uploading to S3")
             if os.path.isfile("{}/temp_data/pdf/{}/result/result.pdf".format(get_base_path(), file_name)):
                 print("file is available")
-                with open("{}/temp_data/pdf/{}/result/result.pdf".format(get_base_path(), file_name), 'rb') as datafile:
-                    print("file opened")
-                    _result = amazon_S3.upload_pdf(file=datafile, file_name="{}.pdf".format(file_name))
+
+                try:
+                    with open("{}/temp_data/pdf/{}/result/result.pdf".format(get_base_path(), file_name), 'rb') as datafile:
+                        print("file opened")
+                        _result = amazon_S3.upload_pdf(file=datafile, file_name="{}.pdf".format(file_name))
+                except:
+                    print("File can not open")
+            else:
+                print("File doesn't exist an path : {}/temp_data/pdf/{}/result/result.pdf".format(get_base_path(), file_name))
 
 
 class PdfMerge:

@@ -96,8 +96,8 @@ class PatentDownload:
                     print(e)
                     print("redo")
                     driver.quit()
-                    patent_download_class = PatentDownload()
-                    patent_download_class.patent_pdf(patent_id=patent_id, file_name=file_name)
+                    # patent_download_class = PatentDownload()
+                    # patent_download_class.patent_pdf(patent_id=patent_id, file_name=file_name)
 
                 try:
                     adminCheckBox = WebDriverWait(driver, 10).until(
