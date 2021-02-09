@@ -60,7 +60,7 @@ class PatentDownload:
                 )
             except Exception as e:
                 print(e)
-                print("redo")
+                print("redo 1")
                 driver.quit()
                 patent_download_class = PatentDownload()
                 patent_download_class.patent_pdf(patent_id=patent_id, file_name=file_name)
@@ -74,7 +74,7 @@ class PatentDownload:
                 time.sleep(3)
             except Exception as e:
                 print(e)
-                print("redo")
+                print("redo 2")
                 driver.quit()
                 patent_download_class = PatentDownload()
                 patent_download_class.patent_pdf(patent_id=patent_id, file_name=file_name)
@@ -94,7 +94,7 @@ class PatentDownload:
 
                 except Exception as e:
                     print(e)
-                    print("redo")
+                    print("redo 3")
                     driver.quit()
                     patent_download_class = PatentDownload()
                     patent_download_class.patent_pdf(patent_id=patent_id, file_name=file_name)
@@ -132,7 +132,7 @@ class PatentDownload:
                         download_all_pdf.click()
                     except Exception as e:
                         print(e)
-                        print("redo")
+                        print("redo 4")
                         driver.quit()
                         patent_download_class = PatentDownload()
                         patent_download_class.patent_pdf(patent_id=patent_id, file_name=file_name)
@@ -146,7 +146,7 @@ class PatentDownload:
                         time.sleep(10)
                     except Exception as e:
                         print(e)
-                        print("redo")
+                        print("redo 5")
                         driver.quit()
                         patent_download_class = PatentDownload()
                         patent_download_class.patent_pdf(patent_id=patent_id, file_name=file_name)
@@ -241,7 +241,7 @@ class PatentDownload:
                         download_all_pdf.click()
                     except Exception as e:
                         print(e)
-                        print("redo")
+                        print("redo 6")
                         driver.quit()
                         patent_download_class = PatentDownload()
                         patent_download_class.patent_pdf(patent_id=patent_id, file_name=file_name)
@@ -255,7 +255,7 @@ class PatentDownload:
                         print("completed downloading pdfs for application number : " + patent_id)
                     except Exception as e:
                         print(e)
-                        print("redo")
+                        print("redo 7")
                         driver.quit()
                         patent_download_class = PatentDownload()
                         patent_download_class.patent_pdf(patent_id=patent_id, file_name=file_name)
@@ -283,7 +283,7 @@ class PatentDownload:
 
         finally:
             driver.quit()
-            return 
+            return
 
         # end = time.time()
         # print(f"Runtime of the program is {end - start}")
