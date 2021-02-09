@@ -94,7 +94,7 @@ class PatentDownload:
 
                 except Exception as e:
                     print(e)
-                    print("redo")
+                    print("can't get the image file wrapper")
                     driver.quit()
                     # patent_download_class = PatentDownload()
                     # patent_download_class.patent_pdf(patent_id=patent_id, file_name=file_name)
