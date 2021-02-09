@@ -52,8 +52,8 @@ class PatentDownload:
         start = time.time()
 
         try:
-            search=''
-            submit=''
+            search = ''
+            submit = ''
             try:
                 search = WebDriverWait(driver, 40).until(
                     EC.presence_of_element_located((By.ID, "number_id"))
@@ -84,7 +84,7 @@ class PatentDownload:
 
             try:
                 driver.find_element_by_id("imageFileWrapperId")
-                adminCheckBox=''
+                adminCheckBox = ''
                 try:
                     image_file_wrapper = WebDriverWait(driver, 40).until(
                         EC.presence_of_element_located((By.ID, "imageFileWrapperId"))
@@ -94,10 +94,10 @@ class PatentDownload:
 
                 except Exception as e:
                     print(e)
-                    print("can't get the image file wrapper")
+                    print("redo")
                     driver.quit()
-                    # patent_download_class = PatentDownload()
-                    # patent_download_class.patent_pdf(patent_id=patent_id, file_name=file_name)
+                    patent_download_class = PatentDownload()
+                    patent_download_class.patent_pdf(patent_id=patent_id, file_name=file_name)
 
                 try:
                     adminCheckBox = WebDriverWait(driver, 10).until(
@@ -150,7 +150,6 @@ class PatentDownload:
                         driver.quit()
                         patent_download_class = PatentDownload()
                         patent_download_class.patent_pdf(patent_id=patent_id, file_name=file_name)
-
 
                 try:
                     adminCheckBox = WebDriverWait(driver, 10).until(
@@ -230,13 +229,13 @@ class PatentDownload:
                 # select_all_rows.click()
                 # print("selecting all PDFs")
 
-                if((REM_exist+CLM_exist+AMSB_exist)!=0):
+                if ((REM_exist + CLM_exist + AMSB_exist) != 0):
                     try:
                         download_all_pdf = WebDriverWait(driver, 40).until(
                             EC.presence_of_element_located((By.XPATH, '//*[@id="buttonsID"]/a'))
                         )
                         time.sleep(3)
-                        path_b = path+"/2"
+                        path_b = path + "/2"
                         params = {'behavior': 'allow', 'downloadPath': path_b}
                         driver.execute_cdp_cmd('Page.setDownloadBehavior', params)
                         download_all_pdf.click()
@@ -280,10 +279,11 @@ class PatentDownload:
                 print(e)
                 print("image file wrapper doesn't exist for the id")
                 driver.quit()
-                return 0
+                return
 
         finally:
             driver.quit()
+            return 
 
         # end = time.time()
         # print(f"Runtime of the program is {end - start}")
