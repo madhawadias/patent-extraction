@@ -35,7 +35,7 @@ def get_patent_search():
 def process():
     text = request.form['name']
     count = request.form['count']
-
+    count= int(count)
     if text:
 
         try:
