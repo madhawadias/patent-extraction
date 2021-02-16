@@ -27,12 +27,14 @@ class ExtractPatentId:
                         patentIdCol = column
 
             if patentIdCol:
-                if df.shape[0] > count:
-                    df[:count]
+                id_count=0
                 patentIds = df[patentIdCol]
                 for patentId in patentIds:
                     if re.match(regex, patentId):
+                        id_count= id_count+1
                         await patent_download_class.runner(patent_id=patentId, file_name=file_name)
+                        if id_count==count:
+                            break
                     else:
                         skiped.append(patentId)
 
