@@ -41,8 +41,6 @@ class PatentDownload:
 
     def patent_pdf(self, patent_id, file_name):
         global retry
-        if retry == 3:
-            return
         # options = webdriver.ChromeOptions()
         options = self.options
         path = "{}/temp_data/pdf/{}".format(get_base_path(), file_name[0:-4])
@@ -284,11 +282,16 @@ class PatentDownload:
             except NoSuchElementException as e:
                 print(e)
                 print("image file wrapper doesn't exist for the id")
-                driver.quit()
-                print("re-trying to find image wrapper")
-                retry = retry + 1
-                patent_download_class = PatentDownload()
-                patent_download_class.patent_pdf(patent_id=patent_id, file_name=file_name)
+                if retry == 2:
+                    print("moving to the next id")
+                    driver.quit()
+                    return
+                else:
+                    driver.quit()
+                    print("re-trying to find image wrapper")
+                    retry = retry + 1
+                    patent_download_class = PatentDownload()
+                    patent_download_class.patent_pdf(patent_id=patent_id, file_name=file_name)
 
         finally:
             driver.quit()
