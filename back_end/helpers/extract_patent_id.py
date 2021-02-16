@@ -33,7 +33,7 @@ class ExtractPatentId:
                     if re.match(regex, patentId):
                         id_count= id_count+1
                         await patent_download_class.runner(patent_id=patentId, file_name=file_name)
-                        if id_count==count:
+                        if id_count==int(count):
                             break
                     else:
                         skiped.append(patentId)
