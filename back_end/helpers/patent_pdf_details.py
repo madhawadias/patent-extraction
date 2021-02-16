@@ -13,6 +13,7 @@ from back_end.app import get_base_path
 global retry
 retry = 0
 
+
 class PatentDownload:
 
     def __init__(self):
@@ -39,7 +40,8 @@ class PatentDownload:
         self.patent_pdf(patent_id=patent_id, file_name=file_name)
 
     def patent_pdf(self, patent_id, file_name):
-        if retry==3:
+        global retry
+        if retry == 3:
             return
         # options = webdriver.ChromeOptions()
         options = self.options
@@ -284,6 +286,7 @@ class PatentDownload:
                 print("image file wrapper doesn't exist for the id")
                 driver.quit()
                 print("re-trying to find image wrapper")
+                retry = retry + 1
                 patent_download_class = PatentDownload()
                 patent_download_class.patent_pdf(patent_id=patent_id, file_name=file_name)
 
