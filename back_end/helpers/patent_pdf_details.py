@@ -10,6 +10,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 from back_end.app import get_base_path
 
+global retry
+retry = 0
 
 class PatentDownload:
 
@@ -37,6 +39,8 @@ class PatentDownload:
         self.patent_pdf(patent_id=patent_id, file_name=file_name)
 
     def patent_pdf(self, patent_id, file_name):
+        if retry==3:
+            return
         # options = webdriver.ChromeOptions()
         options = self.options
         path = "{}/temp_data/pdf/{}".format(get_base_path(), file_name[0:-4])
@@ -279,7 +283,9 @@ class PatentDownload:
                 print(e)
                 print("image file wrapper doesn't exist for the id")
                 driver.quit()
-                return
+                print("re-trying to find image wrapper")
+                patent_download_class = PatentDownload()
+                patent_download_class.patent_pdf(patent_id=patent_id, file_name=file_name)
 
         finally:
             driver.quit()
