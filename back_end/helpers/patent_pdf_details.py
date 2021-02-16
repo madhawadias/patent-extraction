@@ -284,6 +284,7 @@ class PatentDownload:
                 print("image file wrapper doesn't exist for the id")
                 if retry == 2:
                     print("moving to the next id")
+                    retry = 0
                     driver.quit()
                     return
                 else:
