@@ -34,6 +34,7 @@ def get_patent_search():
 @patent_search_process_endpoint.route(process_endpoint, methods=['POST'])
 def process():
     text = request.form['name']
+    count = request.form['count']
 
     if text:
 
@@ -86,7 +87,7 @@ def process():
                     os.remove(f)
 
             try:
-                res = asyncio.run(extract_patentId.runner(file_name=filename))
+                res = asyncio.run(extract_patentId.runner(file_name=filename,count=count))
                 S3_BASE_URL = "https://patents-jerry.s3.us-east-2.amazonaws.com/{}.pdf".format(filename[:-4])
                 if type(res) is list:
                     global skip_text

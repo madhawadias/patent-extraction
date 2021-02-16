@@ -7,7 +7,7 @@ class ExtractPatentId:
     def __init__(self):
         self.regex = r"\b\d\d[/]\d\d\d\d\d\d"
 
-    async def runner(self, file_name):
+    async def runner(self, file_name,count):
         path = 'back_end/temp_data/' + str(file_name)
         df = pd.read_csv(path, encoding="utf-8")
         regex = self.regex
@@ -27,6 +27,8 @@ class ExtractPatentId:
                         patentIdCol = column
 
             if patentIdCol:
+                if df.shape[0] > count:
+                    df[:count]
                 patentIds = df[patentIdCol]
                 for patentId in patentIds:
                     if re.match(regex, patentId):

@@ -8,6 +8,7 @@ $(document).ready(function() {
 		$.ajax({
 			data : {
 				name : $('#nameInput').val(),
+				count : $('countInput').val()
 			},
 			type : 'POST',
 			url : '/process'
