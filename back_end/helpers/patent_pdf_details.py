@@ -1,4 +1,3 @@
-# import csv
 import time
 
 from selenium import webdriver
@@ -11,7 +10,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from back_end.app import get_base_path
 
 global retry
-retry = 0
 
 
 class PatentDownload:
@@ -53,7 +51,6 @@ class PatentDownload:
         driver = webdriver.Chrome(self.chrome_driver_path, chrome_options=options)
         # driver = webdriver.Chrome(self.chrome_driver_path, chrome_options=self.options)
         driver.get("https://portal.uspto.gov/pair/PublicPair")
-        start = time.time()
 
         try:
             search = ''
@@ -233,7 +230,7 @@ class PatentDownload:
                 # select_all_rows.click()
                 # print("selecting all PDFs")
 
-                if ((REM_exist + CLM_exist + AMSB_exist) != 0):
+                if (REM_exist + CLM_exist + AMSB_exist) != 0:
                     try:
                         download_all_pdf = WebDriverWait(driver, 40).until(
                             EC.presence_of_element_located((By.XPATH, '//*[@id="buttonsID"]/a'))

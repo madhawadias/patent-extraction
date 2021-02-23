@@ -91,7 +91,7 @@ def process():
                     os.remove(f)
 
             try:
-                res = asyncio.run(extract_patentId.runner(file_name=filename,count=count))
+                res = asyncio.run(extract_patentId.runner(file_name=filename,count=count,b_download_path=b_download))
                 S3_BASE_URL = "https://patents-jerry.s3.us-east-2.amazonaws.com/{}.pdf".format(filename[:-4])
                 if type(res) is list:
                     global skip_text

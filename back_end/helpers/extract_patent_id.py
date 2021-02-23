@@ -1,3 +1,5 @@
+import os
+
 import pandas as pd
 import re
 from back_end.helpers.patent_pdf_details import PatentDownload
@@ -7,7 +9,7 @@ class ExtractPatentId:
     def __init__(self):
         self.regex = r"\b\d\d[/]\d\d\d\d\d\d"
 
-    async def runner(self, file_name,count):
+    async def runner(self, file_name, count, b_download_path):
         path = 'back_end/temp_data/' + str(file_name)
         df = pd.read_csv(path, encoding="utf-8")
         regex = self.regex
@@ -27,13 +29,12 @@ class ExtractPatentId:
                         patentIdCol = column
 
             if patentIdCol:
-                id_count=0
                 patentIds = df[patentIdCol]
                 for patentId in patentIds:
                     if re.match(regex, patentId):
-                        id_count= id_count+1
                         await patent_download_class.runner(patent_id=patentId, file_name=file_name)
-                        if id_count==int(count):
+                        downloaded_count = len([a for a in os.listdir(b_download_path) if a.endswith(".pdf")])
+                        if downloaded_count == int(count):
                             break
                     else:
                         skiped.append(patentId)
