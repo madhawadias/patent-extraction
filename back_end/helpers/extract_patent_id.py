@@ -9,7 +9,7 @@ class ExtractPatentId:
     def __init__(self):
         self.regex = r"\b\d\d[/]\d\d\d\d\d\d"
 
-    async def runner(self, file_name, count, b_download_path):
+    async def runner(self, file_name, count, b_download_path, a_download_path):
         path = 'back_end/temp_data/' + str(file_name)
         df = pd.read_csv(path, encoding="utf-8")
         regex = self.regex
@@ -33,7 +33,10 @@ class ExtractPatentId:
                 for patentId in patentIds:
                     if re.match(regex, patentId):
                         await patent_download_class.runner(patent_id=patentId, file_name=file_name)
-                        downloaded_count = len([a for a in os.listdir(b_download_path) if a.endswith(".pdf")])
+                        a = [a for a in os.listdir(a_download_path) if a.endswith(".pdf")]
+                        b = [a for a in os.listdir(b_download_path) if a.endswith(".pdf")]
+                        total_pdfs = list(set(a) | set(b))
+                        downloaded_count = len(total_pdfs)
                         if downloaded_count == int(count):
                             break
                     else:
