@@ -8,7 +8,6 @@ global patentIdCol, progress
 progress = "-"
 
 def get_progress():
-    print(progress)
     return progress
 
 
