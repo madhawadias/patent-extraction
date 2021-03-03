@@ -7,7 +7,11 @@ $(document).ready(function() {
         $('#successAlert').hide();
 
         var get_progress = setInterval(function(){
-        document.getElementById("searching").innerHTML="res"
+        var oReq = new XMLHttpRequest();
+        oReq.open("GET", "/progress", true);
+        oReq.send()
+        var res = this.responseText;
+        document.getElementById("searching").innerHTML=res
         }, 2000);
 
 		$.ajax({
