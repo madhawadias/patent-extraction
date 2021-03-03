@@ -8,8 +8,12 @@ $(document).ready(function() {
 
         function reqListener() {
         var res = this.responseText;
-        console.log(res)
-        document.getElementById("searching").innerHTML=res
+
+        if(res != "-"){
+        var prg_msg = "Download in progress : " + res + "% completed"
+        document.getElementById("searching").innerHTML=prg_msg
+        }
+
         }
 
         var get_progress = setInterval(function(){
