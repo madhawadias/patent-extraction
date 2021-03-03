@@ -7,8 +7,8 @@ $(document).ready(function() {
         $('#successAlert').hide();
 
         var get_progress = setInterval(function(){
-        var number = 1 + Math.floor(Math.random() * 6);
-        $('#searching').text(number)}, 2000);
+        console.log("progress")
+        }, 2000);
 
 		$.ajax({
 			data : {
