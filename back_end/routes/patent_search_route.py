@@ -25,7 +25,7 @@ DOWNLOAD_FOLDER = 'back_end/temp_data/pdf'
 app.config['DOWNLOAD_FOLDER'] = DOWNLOAD_FOLDER
 
 
-@patent_search_progress_endpoint.route(endpoint, methods=['GET'])
+@patent_search_progress_endpoint.route(progress_endpoint, methods=['GET'])
 def get_progress():
     progress = get_progress()
     return progress
