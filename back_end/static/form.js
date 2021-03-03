@@ -7,12 +7,19 @@ $(document).ready(function() {
         $('#successAlert').hide();
 
         function reqListener() {
-        var res = this.responseText;
-
-        if(res != "-"){
-        var prg_msg = "Download in progress : " + res + "% completed"
-        document.getElementById("searching").innerHTML=prg_msg
-        }
+            var res = this.responseText;
+            var search = "Searching"
+            if(res != "-"){
+            var prg_msg = "Download in progress : " + res + "% completed"
+            document.getElementById("searching").innerHTML=prg_msg
+            }else{
+                if(search=="Searching....."){
+                    search = "Searching"
+                }else{
+                    search= search+"."
+                }
+                document.getElementById("searching").innerHTML=search
+            }
 
         }
 
