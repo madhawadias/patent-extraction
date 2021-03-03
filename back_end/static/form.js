@@ -6,12 +6,17 @@ $(document).ready(function() {
         $('#errorAlert').hide();
         $('#successAlert').hide();
 
+        function reqListener() {
+        var res = this.responseText;
+        console.log(res)
+        document.getElementById("searching").innerHTML=res
+        }
+
         var get_progress = setInterval(function(){
         var oReq = new XMLHttpRequest();
         oReq.open("GET", "/progress", true);
         oReq.send()
-        var res = this.responseText;
-        document.getElementById("searching").innerHTML=res
+        oReq.addEventListener('load', reqListener);
         }, 2000);
 
 		$.ajax({
