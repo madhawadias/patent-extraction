@@ -7,7 +7,7 @@ $(document).ready(function() {
         $('#successAlert').hide();
 
         var get_progress = setInterval(function(){
-        console.log("progress")
+        document.getElementById("searching").innerHTML="res"
         }, 2000);
 
 		$.ajax({
