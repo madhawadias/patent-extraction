@@ -8,7 +8,7 @@ $(document).ready(function() {
 
         function reqListener() {
             var res = this.responseText;
-            var search = "Searching"
+            var search = document.getElementById("searching").innerHTML
             if(res != "-"){
             var prg_msg = "Download in progress : " + res + "% completed"
             document.getElementById("searching").innerHTML=prg_msg
