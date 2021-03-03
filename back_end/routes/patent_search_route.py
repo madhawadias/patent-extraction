@@ -26,7 +26,7 @@ app.config['DOWNLOAD_FOLDER'] = DOWNLOAD_FOLDER
 
 
 @patent_search_progress_endpoint.route(progress_endpoint, methods=['GET'])
-def get_progress():
+def get_download_progress():
     progress = get_progress()
     return progress
 
