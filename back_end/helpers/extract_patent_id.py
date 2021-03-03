@@ -4,6 +4,12 @@ import pandas as pd
 import re
 from back_end.helpers.patent_pdf_details import PatentDownload
 
+global patentIdCol, progress
+
+
+def get_progress():
+    return progress
+
 
 class ExtractPatentId:
     def __init__(self):
@@ -13,8 +19,8 @@ class ExtractPatentId:
         path = 'back_end/temp_data/' + str(file_name)
         df = pd.read_csv(path, encoding="utf-8")
         regex = self.regex
-        global patentIdCol
-        skiped = []
+        global patentIdCol, progress
+        skipped = []
         patentIdCol = None
         patent_download_class = PatentDownload()
 
@@ -37,13 +43,14 @@ class ExtractPatentId:
                         b = [a for a in os.listdir(b_download_path) if a.endswith(".pdf")]
                         total_pdfs = list(set(a) | set(b))
                         downloaded_count = len(total_pdfs)
+                        progress = int((downloaded_count / int(count)) * 100)
                         if downloaded_count == int(count):
                             break
                     else:
-                        skiped.append(patentId)
+                        skipped.append(patentId)
 
-                if skiped:
-                    return skiped
+                if skipped:
+                    return skipped
                 else:
                     S3_BASE_URL = "https://patents-jerry.s3.us-east-2.amazonaws.com/{}.pdf".format(file_name[:-4])
                     return "Download Completed!!" + " Get your file from here: " + S3_BASE_URL

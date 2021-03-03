@@ -5,6 +5,7 @@ import os
 from flask import Flask, render_template, request, jsonify, Blueprint
 
 from back_end.helpers.extract_patent_id import ExtractPatentId
+from back_end.helpers.extract_patent_id import get_progress
 from back_end.helpers.patent_details import PatentExtract
 from back_end.helpers.pdf_merge import PdfMerge
 from back_end.helpers.send_mail import SendMail
@@ -13,13 +14,21 @@ app = Flask(__name__)
 
 patent_search_endpoint = Blueprint("patent_search_service", __name__)
 patent_search_process_endpoint = Blueprint("patent_search_process_service", __name__)
+patent_search_progress_endpoint = Blueprint("patent_search_progress_service", __name__)
 endpoint = "/patent_search_service"
 process_endpoint = "/process"
+progress_endpoint = "/progress"
 
 UPLOAD_FOLDER = 'back_end/temp_data'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 DOWNLOAD_FOLDER = 'back_end/temp_data/pdf'
 app.config['DOWNLOAD_FOLDER'] = DOWNLOAD_FOLDER
+
+
+@patent_search_progress_endpoint.route(endpoint, methods=['GET'])
+def get_progress():
+    progress = get_progress()
+    return progress
 
 
 @patent_search_endpoint.route(endpoint, methods=['GET', 'POST'])
@@ -63,11 +72,11 @@ def process():
             if not os.path.isdir(download):
                 os.mkdir(download)
 
-            final_download = str(DOWNLOAD_FOLDER) + "/" + str(filename)[0:-4]+"/result"
+            final_download = str(DOWNLOAD_FOLDER) + "/" + str(filename)[0:-4] + "/result"
             if not os.path.isdir(final_download):
                 os.mkdir(final_download)
 
-            if os.listdir(final_download) != []:
+            if os.listdir(final_download):
                 files = glob.glob(final_download + '/*')
                 for f in files:
                     os.remove(f)
@@ -76,7 +85,7 @@ def process():
             if not os.path.isdir(a_download):
                 os.mkdir(a_download)
 
-            if os.listdir(a_download) != []:
+            if os.listdir(a_download):
                 files = glob.glob(a_download + '/*')
                 for f in files:
                     os.remove(f)
@@ -85,17 +94,17 @@ def process():
             if not os.path.isdir(b_download):
                 os.mkdir(b_download)
 
-            if os.listdir(b_download) != []:
+            if os.listdir(b_download):
                 files = glob.glob(b_download + '/*')
                 for f in files:
                     os.remove(f)
 
             try:
-                res = asyncio.run(extract_patentId.runner(file_name=filename,count=count,b_download_path=b_download,a_download_path=a_download))
+                res = asyncio.run(extract_patentId.runner(file_name=filename, count=count, b_download_path=b_download,
+                                                          a_download_path=a_download))
                 S3_BASE_URL = "https://patents-jerry.s3.us-east-2.amazonaws.com/{}.pdf".format(filename[:-4])
                 if type(res) is list:
-                    global skip_text
-                    skip_text = "Following file(s) were skiped : "
+                    skip_text = "Following file(s) were skipped : "
                     if len(res) == 1:
                         skip_text = skip_text + str(res[0]) + ","
                     else:
@@ -106,23 +115,21 @@ def process():
                 print(e)
                 return jsonify({'error': str(e)})
 
-
-
             if os.listdir(a_download):
                 try:
-                    asyncio.run(merger.runner(file_name=filename,folder_name="1"))
+                    asyncio.run(merger.runner(file_name=filename, folder_name="1"))
                 except Exception as e:
                     print(e)
 
             if os.listdir(b_download):
                 try:
-                    asyncio.run(merger.runner(file_name=filename,folder_name="2"))
+                    asyncio.run(merger.runner(file_name=filename, folder_name="2"))
                 except Exception as e:
                     print(e)
 
             if os.listdir(final_download):
                 try:
-                    asyncio.run(merger.runner(file_name=filename,folder_name="result"))
+                    asyncio.run(merger.runner(file_name=filename, folder_name="result"))
                 except Exception as e:
                     print(e)
 

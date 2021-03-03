@@ -5,6 +5,11 @@ $(document).ready(function() {
         $('#searching').text("Searching.....").show();
         $('#errorAlert').hide();
         $('#successAlert').hide();
+
+        var get_progress = setInterval(function(){
+        var number = 1 + Math.floor(Math.random() * 6);
+        $('#searching').text(number)}, 2000);
+
 		$.ajax({
 			data : {
 				name : $('#nameInput').val(),
@@ -14,7 +19,7 @@ $(document).ready(function() {
 			url : '/process'
 		})
 		.done(function(data) {
-
+            clearInterval(get_progress);
 			if (data.error) {
 				$('#errorAlert').text(data.error).show();
 				$('#successAlert').hide();
@@ -32,4 +37,5 @@ $(document).ready(function() {
 	});
 
 });
+
 

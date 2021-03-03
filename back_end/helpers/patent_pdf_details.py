@@ -10,7 +10,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from back_end.app import get_base_path
 
 global retry
-retry=0
+retry = 0
+
 
 class PatentDownload:
 
