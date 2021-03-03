@@ -12,7 +12,7 @@ $(document).ready(function() {
         oReq.send()
         var res = this.responseText;
         document.getElementById("searching").innerHTML=res
-        }, 5000);
+        }, 2000);
 
 		$.ajax({
 			data : {
