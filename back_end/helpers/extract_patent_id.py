@@ -8,6 +8,7 @@ global patentIdCol, progress
 progress = "-"
 
 def get_progress():
+    print(progress)
     return progress
 
 
@@ -20,7 +21,7 @@ class ExtractPatentId:
         df = pd.read_csv(path, encoding="utf-8")
         regex = self.regex
         global patentIdCol, progress
-
+        progress = "-"
         skipped = []
         patentIdCol = None
         patent_download_class = PatentDownload()
