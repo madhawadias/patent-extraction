@@ -51,8 +51,10 @@ class ExtractPatentId:
                         skipped.append(patentId)
 
                 if skipped:
+                    progress = "-"
                     return skipped
                 else:
+                    progress = "-"
                     S3_BASE_URL = "https://patents-jerry.s3.us-east-2.amazonaws.com/{}.pdf".format(file_name[:-4])
                     return "Download Completed!!" + " Get your file from here: " + S3_BASE_URL
             else:
