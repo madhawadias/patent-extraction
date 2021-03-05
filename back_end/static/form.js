@@ -53,8 +53,8 @@ $(document).ready(function() {
 				if(data.name.link) {
 					$('#successAlert').hide();
 				    $('#successAlertWithLink').text(data.name.text).show();
-                    $("a").attr("href", data.name.link);
-                    $("a").text(data.name.link);
+                    $("#download_link").attr("href", data.name.link);
+                    $("#download_link").text(data.name.link);
 				}
 				else{
 				    $('#successAlert').text(data.name.text).show();
