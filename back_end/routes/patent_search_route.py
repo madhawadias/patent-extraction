@@ -110,7 +110,8 @@ def process():
                     else:
                         for skip in res:
                             skip_text = skip_text + str(skip) + ","
-                    res = skip_text[:-1] + ' and Get your file from here: <br><a href="{}">{}</a>'.format(S3_BASE_URL,S3_BASE_URL)
+                    base_text = skip_text[:-1] + ' and Get your file from here:'
+                    res = {"text": base_text, "link": S3_BASE_URL}
             except Exception as e:
                 print(e)
                 return jsonify({'error': str(e)})
@@ -135,7 +136,7 @@ def process():
 
                 send_mail.runner(file_url=S3_BASE_URL, file_name=text)
             else:
-                res = "No files available for your search"
+                res = {"text":"No files available for your search"}
 
             return jsonify({'name': res})
 

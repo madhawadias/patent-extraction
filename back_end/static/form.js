@@ -5,6 +5,7 @@ $(document).ready(function() {
         $('#searching').text("Searching.....").show();
         $('#errorAlert').hide();
         $('#successAlert').hide();
+        $('#successAlertWithLink').hide();
 
         function reqListener() {
             var res = this.responseText;
@@ -43,12 +44,22 @@ $(document).ready(function() {
 			if (data.error) {
 				$('#errorAlert').text(data.error).show();
 				$('#successAlert').hide();
+				$('#successAlertWithLink').hide();
 				$('#searching').text(data.error).hide();
 			}
 			else {
-				$('#successAlert').text(data.name).show();
 				$('#errorAlert').hide();
 				$('#searching').text(data.error).hide();
+				if(data.name.link) {
+					$('#successAlert').hide();
+				    $('#successAlertWithLink').text(data.name.text).show();
+                    $("a").attr("href", data.name.link);
+                    $("a").text(data.name.link);
+				}
+				else{
+				    $('#successAlert').text(data.name.text).show();
+				    $('#successAlertWithLink').hide();
+				}
 			}
 		});
 
