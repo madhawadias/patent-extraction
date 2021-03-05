@@ -110,7 +110,7 @@ def process():
                     else:
                         for skip in res:
                             skip_text = skip_text + str(skip) + ","
-                    res = skip_text[:-1] + " and" + " Get your file from here: " + S3_BASE_URL
+                    res = skip_text[:-1] + ' and Get your file from here: <br><a href="{}">{}</a>'.format(S3_BASE_URL,S3_BASE_URL)
             except Exception as e:
                 print(e)
                 return jsonify({'error': str(e)})

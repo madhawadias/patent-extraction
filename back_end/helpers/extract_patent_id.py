@@ -7,6 +7,7 @@ from back_end.helpers.patent_pdf_details import PatentDownload
 global patentIdCol, progress
 progress = "-"
 
+
 def get_progress():
     return progress
 
@@ -56,7 +57,7 @@ class ExtractPatentId:
                 else:
                     progress = "-"
                     S3_BASE_URL = "https://patents-jerry.s3.us-east-2.amazonaws.com/{}.pdf".format(file_name[:-4])
-                    return "Download Completed!!" + " Get your file from here: " + S3_BASE_URL
+                    return 'Download Completed!! Get your file from here: <br><a href="{}">{}</a>'.format(S3_BASE_URL,S3_BASE_URL)
             else:
                 return "Please enter a valid CSV file"
 
