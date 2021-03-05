@@ -1,7 +1,8 @@
 import os
+import re
 
 import pandas as pd
-import re
+
 from back_end.helpers.patent_pdf_details import PatentDownload
 
 global patentIdCol, progress
