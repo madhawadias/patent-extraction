@@ -52,7 +52,7 @@ $(document).ready(function() {
 				$('#searching').text(data.error).hide();
 				if(data.name.link) {
 					$('#successAlert').hide();
-				    $('#successAlertWithLink').text(data.name.text).show();
+				    $('#link_text').text(data.name.text).show();
                     $("a#download_link").attr("href", data.name.link);
                     $("a#download_link").text(data.name.link);
 				}
