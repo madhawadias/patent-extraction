@@ -136,7 +136,7 @@ def process():
 
                 send_mail.runner(file_url=S3_BASE_URL, file_name=text)
             else:
-                res = {"text":"No files available for your search"}
+                res = {"text": "No files available for your search"}
 
             return jsonify({'name': res})
 
