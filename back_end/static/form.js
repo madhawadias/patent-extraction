@@ -52,7 +52,8 @@ $(document).ready(function() {
 				$('#searching').text(data.error).hide();
 				if(data.name.link) {
 					$('#successAlert').hide();
-				    $('#link_text').text(data.name.text).show();
+					$('#successAlertWithLink').show();
+				    $('#link_text').text(data.name.text)
                     $("a#download_link").attr("href", data.name.link);
                     $("a#download_link").text(data.name.link);
 				}
