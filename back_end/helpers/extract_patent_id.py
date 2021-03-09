@@ -1,16 +1,29 @@
-import pandas as pd
+import os
 import re
+
+import pandas as pd
+
 from back_end.helpers.patent_pdf_details import PatentDownload
+
+global patentIdCol, progress
+progress = "-"
+
+
+def get_progress():
+    return progress
 
 
 class ExtractPatentId:
+    def __init__(self):
+        self.regex = r"\b\d\d[/]\d\d\d\d\d\d"
 
-    async def runner(file_name):
-        path = 'temp_data/' + str(file_name)
+    async def runner(self, file_name, count, b_download_path, a_download_path):
+        path = 'back_end/temp_data/' + str(file_name)
         df = pd.read_csv(path, encoding="utf-8")
-        regex = r"\b\d\d[/]\d\d\d\d\d\d"
-        global patentIdCol
-        skiped=[]
+        regex = self.regex
+        global patentIdCol, progress
+        progress = "-"
+        skipped = []
         patentIdCol = None
         patent_download_class = PatentDownload()
 
@@ -28,14 +41,24 @@ class ExtractPatentId:
                 patentIds = df[patentIdCol]
                 for patentId in patentIds:
                     if re.match(regex, patentId):
-                        await patent_download_class.runner(patent_id=patentId,file_name=file_name)
+                        await patent_download_class.runner(patent_id=patentId, file_name=file_name)
+                        a = [a for a in os.listdir(a_download_path) if a.endswith(".pdf")]
+                        b = [a for a in os.listdir(b_download_path) if a.endswith(".pdf")]
+                        total_pdfs = list(set(a) | set(b))
+                        downloaded_count = len(total_pdfs)
+                        progress = int((downloaded_count / int(count)) * 100)
+                        if downloaded_count == int(count):
+                            break
                     else:
-                        skiped.append(patentId)
+                        skipped.append(patentId)
 
-                if skiped:
-                    return skiped
+                if skipped:
+                    progress = "-"
+                    return skipped
                 else:
-                    return "Download Completed!!"
+                    progress = "-"
+                    S3_BASE_URL = "https://patents-jerry.s3.us-east-2.amazonaws.com/{}.pdf".format(file_name[:-4])
+                    return {"text": "Download Completed!! Get your file from here:", "link": S3_BASE_URL}
             else:
                 return "Please enter a valid CSV file"
 

@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, jsonify, Blueprint
 from werkzeug.utils import secure_filename
 from back_end.helpers.extract_patent_id import ExtractPatentId
 from back_end.helpers.pdf_merge import PdfMerge
-import os, asyncio,glob
+import os, asyncio, glob
 
 app = Flask(__name__)
 
@@ -11,9 +11,9 @@ patent_download_process_endpoint = Blueprint("patent_download_process_service", 
 endpoint = "/patent_download_service"
 process_endpoint = "/download_process"
 
-UPLOAD_FOLDER = 'temp_data'
+UPLOAD_FOLDER = 'back_end/temp_data'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-DOWNLOAD_FOLDER = 'temp_data/pdf'
+DOWNLOAD_FOLDER = 'back_end/temp_data/pdf'
 app.config['DOWNLOAD_FOLDER'] = DOWNLOAD_FOLDER
 
 ALLOWED_EXTENSIONS = set(['csv'])
@@ -60,7 +60,7 @@ def uploaded_file():
                 os.mkdir(download)
 
             if os.listdir(download) != []:
-                files = glob.glob(download+'/*')
+                files = glob.glob(download + '/*')
                 for f in files:
                     os.remove(f)
 
@@ -72,6 +72,8 @@ def uploaded_file():
 
             try:
                 res = asyncio.run(extract_patentId.runner(file_name=f.filename))
+                filename = f.file_name
+                S3_BASE_URL = "https://patents-jerry.s3.us-east-2.amazonaws.com/{}.pdf".format(filename[:-4])
                 if type(res) is list:
                     global text
                     text = "Following file(s) were skiped : "
@@ -80,7 +82,7 @@ def uploaded_file():
                     else:
                         for skip in res:
                             text = text + str(skip) + ","
-                    res = text[:-1]
+                    res = text[:-1] + " and" + " Get your file from here: " + S3_BASE_URL
             except Exception as e:
                 return jsonify({'error': str(e)})
                 print(e)

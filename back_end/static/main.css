@@ -28,6 +28,11 @@ form{
 text-align:-webkit-center;
 }
 
+.form-container{
+display:grid;
+grid-template-columns:70% 30%;
+}
+
 button{
   margin:20px 0px;
   background-color:#00001E;
