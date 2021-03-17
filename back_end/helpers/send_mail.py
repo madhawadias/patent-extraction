@@ -1,12 +1,13 @@
 import smtplib
 from email.mime.text import MIMEText
 
+
 class SendMail:
 
     def __init__(self):
         self.sender_email = "jerrypatents@gmail.com"
         self.sender_email_password = "jerrypatents123"
-        self.receiver_emails = ["ashenicas@gmail.com", "madhawadias2@gmail.com"]
+        self.receiver_emails = ["ashenicas@gmail.com", "ashenicas@outlook.com"]
 
     def runner(self, file_url, file_name):
         text = "Please refer following link to download the search result of {}  : {}".format(file_name, file_url)
@@ -24,4 +25,3 @@ class SendMail:
         s.sendmail(self.sender_email, self.receiver_emails, msg.as_string())
         print("Email Sent")
         s.quit()
-
