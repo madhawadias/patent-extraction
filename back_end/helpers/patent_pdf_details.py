@@ -19,7 +19,7 @@ class PatentDownload:
 
         self.options = Options()
         self.options.add_argument("--disable-notifications")
-        self.options.add_argument("--headless")
+        # self.options.add_argument("--headless")
         self.options.add_argument('--no-sandbox')
 
         self.options.add_experimental_option("excludeSwitches", ["enable-automation"])
@@ -27,7 +27,7 @@ class PatentDownload:
 
         # starting execution time
         # self.chrome_driver_path = "{}/utils/chromedriver.exe".format(get_base_path())
-        self.chrome_driver_path = "{}/utils/chromedriver".format(get_base_path())
+        self.chrome_driver_path = "C:\Program Files (x86)/chromedriver.exe"
         # search = driver.find_element_by_id("number_id")
         # search.send_keys("14/688463")
         # submit_btn = driver.find_element_by_id("SubmitPAIR")
@@ -83,6 +83,7 @@ class PatentDownload:
 
             submit.click()
             print("searching for PDFs to the relevant application number")
+            time.sleep(5)
 
             try:
                 driver.find_element_by_id("imageFileWrapperId")
