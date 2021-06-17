@@ -15,13 +15,17 @@ class PatentExtract:
     def __init__(self):
         self.list_of_titles = []
         self.list_of_links = []
-        # self.chrome_driver_path = "{}/utils/chromedriver".format(get_base_path())
-        self.chrome_driver_path = 'C:\Program Files (x86)/chromedriver.exe'
+        self.chrome_driver_path = "{}/utils/chromedriver".format(get_base_path())
+        # self.chrome_driver_path = 'C:/Program Files (x86)/chromedriver.exe'
         hi = "hello"
         self.csv_location = "{}/temp_data/".format(get_base_path())
         self.options = Options()
         self.options.add_argument("--disable-notifications")
-        # self.options.add_argument("--headless")
+
+        user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36'
+        self.options.add_argument(f'user-agent={user_agent}')
+
+        self.options.add_argument("--headless")
 
     # open csv for all titles
     # def write_to_csv(self):

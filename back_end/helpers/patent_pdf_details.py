@@ -19,15 +19,19 @@ class PatentDownload:
 
         self.options = Options()
         self.options.add_argument("--disable-notifications")
-        # self.options.add_argument("--headless")
+
+        user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36'
+        self.options.add_argument(f'user-agent={user_agent}')
+
+        self.options.add_argument("--headless")
         self.options.add_argument('--no-sandbox')
 
         self.options.add_experimental_option("excludeSwitches", ["enable-automation"])
         self.options.add_experimental_option('useAutomationExtension', False)
 
         # starting execution time
-        # self.chrome_driver_path = "{}/utils/chromedriver.exe".format(get_base_path())
-        self.chrome_driver_path = "C:\Program Files (x86)/chromedriver.exe"
+        self.chrome_driver_path = "{}/utils/chromedriver.exe".format(get_base_path())
+        # self.chrome_driver_path = "C:/Users/ASUS/Documents/patent-extract/patent-extraction/utils/chromedriver.exe"
         # search = driver.find_element_by_id("number_id")
         # search.send_keys("14/688463")
         # submit_btn = driver.find_element_by_id("SubmitPAIR")
@@ -43,8 +47,8 @@ class PatentDownload:
         # options = webdriver.ChromeOptions()
         options = self.options
         path = "{}/temp_data/pdf/{}".format(get_base_path(), file_name[0:-4])
-        # prefs = {'download.default_directory': path}
-        # options.add_experimental_option('prefs', prefs)
+        prefs = {'download.default_directory': path}
+        options.add_experimental_option('prefs', prefs)
         print(patent_id)
 
         print(self.chrome_driver_path)
