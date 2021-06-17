@@ -30,7 +30,7 @@ class PatentDownload:
         self.options.add_experimental_option('useAutomationExtension', False)
 
         # starting execution time
-        self.chrome_driver_path = "{}/utils/chromedriver.exe".format(get_base_path())
+        self.chrome_driver_path = "{}/utils/chromedriver".format(get_base_path())
         # self.chrome_driver_path = "C:/Users/ASUS/Documents/patent-extract/patent-extraction/utils/chromedriver.exe"
         # search = driver.find_element_by_id("number_id")
         # search.send_keys("14/688463")
