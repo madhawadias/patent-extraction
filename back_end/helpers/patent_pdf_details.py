@@ -20,18 +20,18 @@ class PatentDownload:
         self.options = Options()
         self.options.add_argument("--disable-notifications")
 
-        user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36'
-        self.options.add_argument(f'user-agent={user_agent}')
+        # user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36'
+        # self.options.add_argument(f'user-agent={user_agent}')
 
-        self.options.add_argument("--headless")
+        # self.options.add_argument("--headless")
         self.options.add_argument('--no-sandbox')
 
         self.options.add_experimental_option("excludeSwitches", ["enable-automation"])
         self.options.add_experimental_option('useAutomationExtension', False)
 
         # starting execution time
-        self.chrome_driver_path = "{}/utils/chromedriver".format(get_base_path())
-        # self.chrome_driver_path = "C:/Users/ASUS/Documents/patent-extract/patent-extraction/utils/chromedriver.exe"
+        # self.chrome_driver_path = "{}/utils/chromedriver".format(get_base_path())
+        self.chrome_driver_path = "C:/Users/ASUS/Documents/patent-extract/patent-extraction/utils/chromedriver.exe"
         # search = driver.find_element_by_id("number_id")
         # search.send_keys("14/688463")
         # submit_btn = driver.find_element_by_id("SubmitPAIR")
@@ -47,6 +47,7 @@ class PatentDownload:
         # options = webdriver.ChromeOptions()
         options = self.options
         path = "{}/temp_data/pdf/{}".format(get_base_path(), file_name[0:-4])
+        print("filename :" + file_name[0:-4])
         prefs = {'download.default_directory': path}
         options.add_experimental_option('prefs', prefs)
         print(patent_id)
@@ -133,8 +134,8 @@ class PatentDownload:
                             EC.presence_of_element_located((By.XPATH, '//*[@id="buttonsID"]/a'))
                         )
                         time.sleep(3)
-                        path_a = path + "/1"
-                        params = {'behavior': 'allow', 'downloadPath': path_a}
+                        path_a = "\\" + file_name[0:-4]
+                        params = {'behavior': 'allow', 'downloadPath': r"C:\Users\ASUS\Documents\patent-extract\patent-extraction\back_end\temp_data\pdf"+path_a+r"\1"}
                         driver.execute_cdp_cmd('Page.setDownloadBehavior', params)
                         download_all_pdf.click()
                     except Exception as e:
@@ -242,8 +243,8 @@ class PatentDownload:
                             EC.presence_of_element_located((By.XPATH, '//*[@id="buttonsID"]/a'))
                         )
                         time.sleep(3)
-                        path_b = path + "/2"
-                        params = {'behavior': 'allow', 'downloadPath': path_b}
+                        path_b = "\\" + file_name[0:-4]
+                        params = {'behavior': 'allow', 'downloadPath': r"C:\Users\ASUS\Documents\patent-extract\patent-extraction\back_end\temp_data\pdf"+path_b+r"\2"}
                         driver.execute_cdp_cmd('Page.setDownloadBehavior', params)
                         download_all_pdf.click()
                     except Exception as e:
