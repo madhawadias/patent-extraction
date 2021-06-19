@@ -8,6 +8,10 @@ from back_end.app import get_base_path
 import csv
 from selenium.webdriver.chrome.options import Options
 import datetime
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 class PatentExtract:
@@ -15,8 +19,8 @@ class PatentExtract:
     def __init__(self):
         self.list_of_titles = []
         self.list_of_links = []
-        # self.chrome_driver_path = "{}/utils/chromedriver".format(get_base_path())
-        self.chrome_driver_path = "C:/Users/ASUS/Documents/patent-extract/patent-extraction/utils/chromedriver.exe"
+        self.chrome_driver_path = "{}".format(get_base_path())+os.getenv("CHROME_DRIVER_PATH")
+        # self.chrome_driver_path = "/back_end/utils/chromedriver.exe"
         hi = "hello"
         self.csv_location = "{}/temp_data/".format(get_base_path())
         self.options = Options()

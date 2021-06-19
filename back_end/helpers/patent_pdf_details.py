@@ -9,6 +9,11 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 from back_end.app import get_base_path
 
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
 global retry
 retry = 0
 
@@ -30,8 +35,9 @@ class PatentDownload:
         self.options.add_experimental_option('useAutomationExtension', False)
 
         # starting execution time
-        # self.chrome_driver_path = "{}/utils/chromedriver".format(get_base_path())
-        self.chrome_driver_path = "C:/Users/ASUS/Documents/patent-extract/patent-extraction/utils/chromedriver.exe"
+        # self.chrome_driver_path = "{}/utils/chromedriver.exe".format(get_base_path())
+        self.chrome_driver_path = "{}".format(get_base_path())+os.getenv("CHROME_DRIVER_PATH")
+        # self.chrome_driver_path = "/back_end/utils/chromedriver.exe"
         # search = driver.find_element_by_id("number_id")
         # search.send_keys("14/688463")
         # submit_btn = driver.find_element_by_id("SubmitPAIR")
@@ -135,7 +141,7 @@ class PatentDownload:
                         )
                         time.sleep(3)
                         path_a = "\\" + file_name[0:-4]
-                        params = {'behavior': 'allow', 'downloadPath': r"C:\Users\ASUS\Documents\patent-extract\patent-extraction\back_end\temp_data\pdf"+path_a+r"\1"}
+                        params = {'behavior': 'allow','downloadPath': r"{}\temp_data\pdf".format(get_base_path()) + path_a + r"\1"}
                         driver.execute_cdp_cmd('Page.setDownloadBehavior', params)
                         download_all_pdf.click()
                     except Exception as e:
@@ -244,7 +250,8 @@ class PatentDownload:
                         )
                         time.sleep(3)
                         path_b = "\\" + file_name[0:-4]
-                        params = {'behavior': 'allow', 'downloadPath': r"C:\Users\ASUS\Documents\patent-extract\patent-extraction\back_end\temp_data\pdf"+path_b+r"\2"}
+                        # params = {'behavior': 'allow', 'downloadPath': r"C:\Users\ASUS\Documents\patent-extract\patent-extraction\back_end\temp_data\pdf"+path_b+r"\2"}
+                        params = {'behavior': 'allow', 'downloadPath': r"{}\temp_data\pdf".format(get_base_path())+path_b+r"\2"}
                         driver.execute_cdp_cmd('Page.setDownloadBehavior', params)
                         download_all_pdf.click()
                     except Exception as e:
