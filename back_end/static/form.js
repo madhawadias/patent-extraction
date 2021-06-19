@@ -33,6 +33,7 @@ $(document).ready(function() {
 
 		$.ajax({
 			data : {
+			    email: $('#emailInput').val(),
 				name : $('#nameInput').val(),
 				count : $('#countInput').val()
 			},

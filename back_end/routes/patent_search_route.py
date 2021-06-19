@@ -44,6 +44,7 @@ def get_patent_search():
 def process():
     text = request.form['name']
     count = request.form['count']
+    email = request.form['email']
     if not count:
         count = 50
     else:
@@ -134,7 +135,7 @@ def process():
                 except Exception as e:
                     print(e)
 
-                send_mail.runner(file_url=S3_BASE_URL, file_name=text)
+                send_mail.runner(file_url=S3_BASE_URL, file_name=text, email=email)
             else:
                 res = {"text": "No files available for your search"}
 

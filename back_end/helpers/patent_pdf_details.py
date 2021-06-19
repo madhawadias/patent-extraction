@@ -20,10 +20,10 @@ class PatentDownload:
         self.options = Options()
         self.options.add_argument("--disable-notifications")
 
-        # user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36'
-        # self.options.add_argument(f'user-agent={user_agent}')
+        user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36'
+        self.options.add_argument(f'user-agent={user_agent}')
 
-        # self.options.add_argument("--headless")
+        self.options.add_argument("--headless")
         self.options.add_argument('--no-sandbox')
 
         self.options.add_experimental_option("excludeSwitches", ["enable-automation"])
