@@ -97,7 +97,8 @@ class PatentDownload:
             time.sleep(5)
 
             try:
-                driver.find_element_by_id("imageFileWrapperId")
+                # driver.find_element_by_id("imageFileWrapperId")
+                print("find element commented")
                 adminCheckBox = ''
                 try:
                     image_file_wrapper = WebDriverWait(driver, 40).until(
