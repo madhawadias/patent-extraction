@@ -103,6 +103,8 @@ class PatentDownload:
                     image_file_wrapper = WebDriverWait(driver, 40).until(
                         EC.presence_of_element_located((By.ID, "imageFileWrapperId"))
                     )
+                    print("found image file wrapper")
+                    print(image_file_wrapper)
                     time.sleep(10)
                     image_file_wrapper.click()
 
