@@ -98,15 +98,19 @@ class PatentDownload:
 
             try:
                 # driver.find_element_by_id("imageFileWrapperId")
-                print("find element commented")
+                image_wrapper = WebDriverWait(driver, 40).until(
+                    EC.presence_of_element_located((By.ID, "imageFileWrapperId"))
+                )
+                print(image_wrapper)
                 adminCheckBox = ''
                 try:
+                    print("inside second try")
                     image_file_wrapper = WebDriverWait(driver, 40).until(
                         EC.presence_of_element_located((By.ID, "imageFileWrapperId"))
                     )
                     print("found image file wrapper")
                     print(image_file_wrapper)
-                    time.sleep(10)
+                    time.sleep(3)
                     image_file_wrapper.click()
 
                 except Exception as e:
