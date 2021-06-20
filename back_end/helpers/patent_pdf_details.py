@@ -97,13 +97,18 @@ class PatentDownload:
             time.sleep(5)
 
             try:
-                time.sleep(5)
-                driver.find_element_by_id("imageFileWrapperId")
+                print("inside first try")
+                # time.sleep(5)
+                # driver.find_element_by_id("imageFileWrapperId")
+                element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "imageFileWrapperId")))
                 # image_file_wrapper = WebDriverWait(driver, 40).until(
                 #     EC.presence_of_element_located((By.ID, "imageFileWrapperId"))
                 # )
-                print("find element commented")
+                print("inside first try")
+                print(element)
                 adminCheckBox = ''
+                print("leaving first try")
+
                 try:
                     print("inside second try")
                     image_file_wrapper = WebDriverWait(driver, 40).until(
